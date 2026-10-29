@@ -1,0 +1,78 @@
+"""Environment presets, seeds and thresholds."""
+
+from dataclasses import dataclass
+
+
+@dataclass(frozen=True)
+class Preset:
+    label: str
+    rates: dict[str, int]  # role -> daily rate in INR
+    team: dict[str, int]  # role -> default headcount
+
+
+PRESETS: dict[str, Preset] = {
+    "software": Preset(
+        label="Software (college placement portal)",
+        rates={
+            "pm": 5000,
+            "analyst": 4000,
+            "designer": 3500,
+            "developer": 4000,
+            "tester": 3000,
+            "devops": 4500,
+        },
+        team={"pm": 1, "analyst": 1, "designer": 1, "developer": 3, "tester": 1, "devops": 1},
+    ),
+    "event": Preset(
+        label="Event (college tech fest)",
+        rates={
+            "coordinator": 3000,
+            "logistics": 2500,
+            "marketing": 2800,
+            "designer": 2500,
+            "tech_crew": 2500,
+            "finance": 3000,
+            "volunteer_lead": 1500,
+        },
+        team={
+            "coordinator": 1,
+            "logistics": 2,
+            "marketing": 2,
+            "designer": 1,
+            "tech_crew": 2,
+            "finance": 1,
+            "volunteer_lead": 2,
+        },
+    ),
+    "construction": Preset(
+        label="Construction (campus lab renovation)",
+        rates={
+            "site_engineer": 4500,
+            "architect": 5000,
+            "supervisor": 3000,
+            "mason": 1500,
+            "electrician": 2000,
+            "plumber": 1800,
+            "carpenter": 1700,
+        },
+        team={
+            "site_engineer": 1,
+            "architect": 1,
+            "supervisor": 1,
+            "mason": 3,
+            "electrician": 2,
+            "plumber": 1,
+            "carpenter": 2,
+        },
+    ),
+}
+
+DEFAULT_SEED = 42
+N_ITERATIONS = 10_000
+
+# RAG status: green if both SPI and CPI >= GREEN, amber if the lower is >= AMBER, else red.
+RAG_GREEN = 0.95
+RAG_AMBER = 0.85
+
+# add_resource efficiency (coordination overhead, cf. Brooks's law).
+DEFAULT_EFFICIENCY = 0.6
