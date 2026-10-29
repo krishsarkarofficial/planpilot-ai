@@ -163,8 +163,8 @@ Budget is about 17 working hours. Claude Code does most of the typing; Krish's t
 **Friday**
 - [x] **P4 Simulation charts + page 3 (08:00-09:15):** histogram with P-lines, S-curve, tornado, criticality chart.
 - [x] **P5 LLM layer + plan chain (09:15-10:45):** `client.py`, `cache.py`, `wbs.md`, `plan_chain`, Home page generate button. *Exit: brief -> valid plan; button-only calls; retry works.*
-- [ ] **P6 Risk chain + register + heatmap (10:45-12:00):** `risks.md`, `risk_chain`, page 2, risks wired into the simulation.
-- [ ] **MVP CHECKPOINT (12:15):** brief -> plan -> risks -> simulation works end to end, offline demo works, tests pass, basic README pushed. **If not true by 13:00, stop adding features and fix it.**
+- [x] **P6 Risk chain + register + heatmap (10:45-12:00):** `risks.md`, `risk_chain`, page 2, risks wired into the simulation.
+- [x] **MVP CHECKPOINT (12:15):** brief -> plan -> risks -> simulation works end to end, offline demo works, tests pass, basic README pushed. **If not true by 13:00, stop adding features and fix it.**
 - [ ] **P7 EVM + status report (13:00-14:30):** `evm.py`, `simulate_progress`, gauges, PV/EV/AC curves, `status_chain`, page 4. Two further frozen projects (event, construction) added here.
 - [ ] **P8 Decision module (14:30-16:30):** `decision.py`, three demo options, weight scenarios, `memo_chain`, page 5.
 - [ ] **FEATURE FREEZE (16:30).**
@@ -243,4 +243,6 @@ Windows pitfalls: always `open(..., encoding="utf-8")` and `Path.read_text(encod
 - P5: prompts use `string.Template` (`$var`), because the JSON few-shot has braces. The retry text lives in `prompts/retry.md`; appended errors are cut to 10 lines. Few-shot examples are per environment in `prompts/examples/`.
 - P5: the SDK runs with `max_retries=0`. A 429 that mentions a daily limit (TPD/RPD, "per day") switches to Gemini for the rest of the server process; any other 429 gets one bounded wait (at most 30 s) and one retry. `finish_reason == "length"` counts as a failed attempt.
 - P5: the cache key uses the initial prompt; only responses that pass every check are stored, and a cache hit is re-checked. Offline mode raises before the cache lookup and before any client is built.
+- P6: `risk_chain` rebuilds the `Project` with the drafted register (`with_risks`), so unknown task ids or owner roles raise and are retried; fewer than 8 or more than 12 risks is also a retry error.
+- P6: risk levels in `engine/risks.py`: probability bands <=0.1/0.3/0.5/0.7/above and impact bands <=1/3/5/10/above working days; score = P level x I level (1-25); expected delay = p x impact days. The Risks page compares the simulation with and without the register (same seed).
 - P5: known limitation: the LLM cannot pin an event date (e.g. "fest in late January"); tasks are scheduled as early as dependencies allow.

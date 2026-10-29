@@ -118,6 +118,50 @@ def _hbar(labels: list[str], values: list[float], fmt: str, x_title: str) -> go.
     return fig
 
 
+BLUE_RAMP = ["#cde2fb", "#86b6ef", "#3987e5", "#1c5cab", "#0d366b"]  # sequential, light -> dark
+
+
+def risk_heatmap(cells: dict[tuple[int, int], list[str]], labels: list[str]) -> go.Figure:
+    """5x5 probability x impact matrix; colour = score (P x I), text = risk ids in the cell."""
+    levels = range(1, 6)
+    z = [[p * i for i in levels] for p in levels]
+    text = [[", ".join(cells.get((p, i), [])) for i in levels] for p in levels]
+    fig = go.Figure(
+        go.Heatmap(
+            z=z,
+            x=labels,
+            y=labels,
+            text=text,
+            colorscale=[[k / 4, c] for k, c in enumerate(BLUE_RAMP)],
+            zmin=1,
+            zmax=25,
+            xgap=2,
+            ygap=2,
+            colorbar={"title": "Score"},
+            hovertemplate="Probability %{y} · impact %{x}<br>Score %{z}<br>%{text}<extra></extra>",
+        )
+    )
+    for p in levels:
+        for i in levels:
+            ids = cells.get((p, i), [])
+            if ids:
+                lines = [" ".join(ids[k : k + 2]) for k in range(0, len(ids), 2)]  # 2 per line
+                fig.add_annotation(
+                    x=labels[i - 1],
+                    y=labels[p - 1],
+                    text="<br>".join(lines),
+                    showarrow=False,
+                    font={"color": "#ffffff" if p * i >= 8 else "#0b0b0b", "size": 13},
+                )
+    fig.update_layout(
+        height=430,
+        margin=MARGIN,
+        xaxis={"title": "Impact (delay if it happens)", "side": "bottom"},
+        yaxis={"title": "Probability"},
+    )
+    return fig
+
+
 def tornado(res: SimResult, names: dict[str, str], top: int = 10) -> go.Figure:
     """Tasks whose duration moves the project duration most (Pearson r)."""
     items = list(res.tornado.items())[:top]  # already sorted by |r|

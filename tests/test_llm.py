@@ -3,7 +3,7 @@ from datetime import date
 
 import pytest
 
-from planpilot.llm.chains import plan_chain
+from planpilot.llm.chains import plan_chain, risk_chain
 from planpilot.llm.client import (
     DailyQuotaExceeded,
     LLMClient,
@@ -16,6 +16,9 @@ from planpilot.samples import load_sample
 SAMPLE = load_sample("software")
 VALID = json.dumps({"name": SAMPLE.name, "tasks": [t.model_dump() for t in SAMPLE.tasks]})
 BAD_DEP = VALID.replace('"depends_on": ["T18"]', '"depends_on": ["T99"]')
+RISKS = json.dumps({"risks": [r.model_dump() for r in SAMPLE.risks]})
+BAD_RISK_TASK = RISKS.replace('"affected_task_ids": ["T17"]', '"affected_task_ids": ["T42"]')
+TOO_FEW_RISKS = json.dumps({"risks": [r.model_dump() for r in SAMPLE.risks[:3]]})
 
 
 class FakeTransport:
@@ -94,6 +97,17 @@ def test_daily_quota_switches_to_gemini(tmp_path):
     run(client)
     assert [p for p, _ in t.calls] == ["groq", "gemini"]
     assert client.provider == "gemini"
+
+
+def test_risk_chain_retries_unknown_task_and_too_few_risks(tmp_path):
+    assert BAD_RISK_TASK != RISKS
+    bare = SAMPLE.model_copy(update={"risks": []})
+    t = FakeTransport(BAD_RISK_TASK, TOO_FEW_RISKS, RISKS)
+    project, warnings = risk_chain(LLMClient(transport=t, cache_dir=tmp_path, offline=False), bare)
+    assert len(t.calls) == 3
+    assert "T42" in t.calls[1][1] and "expected 8-12" in t.calls[2][1]
+    assert [r.id for r in project.risks] == [r.id for r in SAMPLE.risks]
+    assert not any("categories" in w for w in warnings)
 
 
 def test_extract_json_strips_fences():

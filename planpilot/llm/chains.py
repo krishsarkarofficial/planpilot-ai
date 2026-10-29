@@ -8,12 +8,18 @@ from pydantic import BaseModel
 from planpilot.config import PRESETS, PROMPT_DIR
 from planpilot.engine.schedule import check_plan
 from planpilot.llm.client import LLMClient
-from planpilot.models import Environment, Project, Task
+from planpilot.models import Environment, Project, Risk, Task
+
+MIN_RISKS, MAX_RISKS = 8, 12
 
 
 class WBSDraft(BaseModel):
     name: str
     tasks: list[Task]
+
+
+class RiskDraft(BaseModel):
+    risks: list[Risk]
 
 
 def _example(kind: str, environment: str) -> str:
@@ -72,3 +78,49 @@ def plan_chain(
     project = assemble_project(draft, environment, brief, start_date, deadline)
     _, warnings = check_plan(project)
     return project, warnings
+
+
+def with_risks(project: Project, risks: list[Risk]) -> Project:
+    """Copy of `project` with a new register, re-validated (unknown task ids or roles raise)."""
+    data = project.model_dump()
+    data["risks"] = [r.model_dump() for r in risks]
+    return Project.model_validate(data)
+
+
+def risk_chain(
+    client: LLMClient,
+    project: Project,
+    use_cache: bool = True,
+    temperature: float = 0.2,
+) -> tuple[Project, list[str]]:
+    """Project -> same project with an LLM-drafted, validated risk register, and warnings."""
+
+    def check(draft: RiskDraft) -> list[str]:
+        with_risks(project, draft.risks)
+        n = len(draft.risks)
+        return (
+            [] if MIN_RISKS <= n <= MAX_RISKS else [f"{n} risks; expected {MIN_RISKS}-{MAX_RISKS}"]
+        )
+
+    preset = PRESETS[project.environment]
+    tasks = "\n".join(
+        f"{t.id} | {t.name} | {t.phase} | {t.role} | {t.most_likely:g}" for t in project.tasks
+    )
+    draft = client.complete_json(
+        "risks",
+        {
+            "environment_label": preset.label,
+            "roles": ", ".join(preset.rates),
+            "name": project.name,
+            "brief": project.brief,
+            "tasks": tasks,
+            "example": _example("risks", project.environment),
+        },
+        RiskDraft,
+        use_cache=use_cache,
+        temperature=temperature,
+        check=check,
+    )
+    updated = with_risks(project, draft.risks)
+    _, warnings = check_plan(updated)
+    return updated, warnings
