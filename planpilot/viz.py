@@ -11,7 +11,10 @@ from planpilot.engine.montecarlo import SimResult
 
 BLUE = "#2a78d6"  # categorical slot 1
 ORANGE = "#eb6834"  # categorical slot 2
+AQUA = "#1baf7a"  # categorical slot 3
 MUTED = "#898781"
+# Status colours (reserved for RAG; always shown with a text label, never colour alone).
+STATUS = {"green": "#0ca30c", "amber": "#fab219", "red": "#d03b3b"}
 MARGIN = {"l": 10, "r": 10, "t": 40, "b": 10}
 
 
@@ -182,6 +185,80 @@ def criticality(res: SimResult, names: dict[str, str]) -> go.Figure:
         ".0%",
         "Share of runs on the critical path",
     )
+
+
+def index_gauge(value: float, title: str, green: float, amber: float) -> go.Figure:
+    """SPI or CPI gauge with red / amber / green bands at the RAG thresholds."""
+    lo, hi = min(0.5, value - 0.05), max(1.3, value + 0.05)
+    fig = go.Figure(
+        go.Indicator(
+            mode="gauge+number",
+            value=value,
+            number={"valueformat": ".2f"},  # theme ink, readable in light and dark
+            title={"text": title},
+            gauge={
+                "axis": {"range": [lo, hi], "tickformat": ".2f"},
+                "bar": {"color": MUTED, "thickness": 0.25},
+                "steps": [
+                    {"range": [lo, amber], "color": STATUS["red"]},
+                    {"range": [amber, green], "color": STATUS["amber"]},
+                    {"range": [green, hi], "color": STATUS["green"]},
+                ],
+                "threshold": {"line": {"color": MUTED, "width": 2}, "value": 1.0},
+            },
+        )
+    )
+    fig.update_layout(height=230, margin={"l": 30, "r": 30, "t": 50, "b": 10})
+    return fig
+
+
+def evm_curves(planned: pd.DataFrame, series: pd.DataFrame, bac: float) -> go.Figure:
+    """PV over the whole plan; EV and AC up to the status date (INR lakh, one axis)."""
+    fig = go.Figure()
+    lines = (
+        ("Planned value (PV)", planned, "pv", BLUE),
+        ("Earned value (EV)", series, "ev", ORANGE),
+        ("Actual cost (AC)", series, "ac", AQUA),
+    )
+    for name, df, col, color in lines:
+        y = df[col] / 1e5
+        fig.add_trace(
+            go.Scatter(
+                x=df["week"],
+                y=y,
+                name=name,
+                mode="lines+markers",
+                line={"color": color, "width": 2},
+                marker={"size": 8},
+                hovertemplate=f"{name}<br>Week %{{x}}: ₹%{{y:.2f}} lakh<extra></extra>",
+            )
+        )
+        fig.add_annotation(  # direct label at the line end
+            x=df["week"].iloc[-1],
+            y=y.iloc[-1],
+            text=col.upper(),
+            showarrow=False,
+            xanchor="left",
+            xshift=8,
+            font={"color": MUTED},
+        )
+    fig.add_hline(
+        y=bac / 1e5,
+        line={"color": MUTED, "width": 1, "dash": "dash"},
+        annotation_text=f"BAC ₹{bac / 1e5:.2f} lakh",
+        annotation_position="top left",
+        annotation_font_color=MUTED,
+    )
+    as_of = int(series["week"].iloc[-1])
+    _vline(fig, as_of, f"Status date (week {as_of})", MUTED, 1.0, "dot")
+    fig.update_layout(
+        height=430,
+        margin={**MARGIN, "t": 60},
+        legend={"orientation": "h", "y": -0.18, "x": 0},
+        xaxis={"title": "Week", "dtick": 1},
+        yaxis={"title": "₹ lakh (cumulative)", "rangemode": "tozero"},
+    )
+    return fig
 
 
 def gantt(df: pd.DataFrame, deadline: date | None = None) -> go.Figure:

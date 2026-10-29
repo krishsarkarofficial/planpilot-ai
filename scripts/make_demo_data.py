@@ -1,4 +1,5 @@
-"""Validate the frozen demo projects and calibrate each deadline to about the baseline P65.
+"""Validate the frozen demo projects, calibrate each deadline to about the baseline P65 and
+write each project's weekly progress CSV.
 
 Run: python scripts/make_demo_data.py
 """
@@ -6,17 +7,18 @@ Run: python scripts/make_demo_data.py
 import json
 import re
 
-from planpilot.config import DEFAULT_SEED
+from planpilot.config import DEFAULT_SEED, PROGRESS_DEFAULTS
+from planpilot.engine.evm import default_as_of_week, simulate_progress, status_at
 from planpilot.engine.montecarlo import simulate
 from planpilot.engine.schedule import check_plan, finish_date
 from planpilot.models import Project
-from planpilot.samples import SAMPLE_DIR, available_samples
+from planpilot.samples import SAMPLE_DIR, available_samples, progress_path
 
 CALIBRATION_PERCENTILE = 65
 DEADLINE_FIELD = re.compile(r'"deadline":\s*"\d{4}-\d{2}-\d{2}"')
 
 
-def calibrate(env: str) -> None:
+def calibrate(env: str) -> Project:
     path = SAMPLE_DIR / f"{env}.json"
     text = path.read_text(encoding="utf-8")
     project = Project.model_validate(json.loads(text))
@@ -31,13 +33,23 @@ def calibrate(env: str) -> None:
         raise SystemExit(f"{env}: expected one deadline field, found {count}")
     path.write_text(new_text, encoding="utf-8")
 
-    calibrated = simulate(Project.model_validate(json.loads(new_text)), seed=DEFAULT_SEED)
+    calibrated = Project.model_validate(json.loads(new_text))
+    res = simulate(calibrated, seed=DEFAULT_SEED)
     print(
-        f"{env}: deadline {deadline} ({calibrated.deadline_days} working days), "
-        f"P(on time) {calibrated.prob_on_time:.2f}, warnings: {len(warnings)}"
+        f"{env}: deadline {deadline} ({res.deadline_days} working days), "
+        f"P(on time) {res.prob_on_time:.2f}, warnings: {len(warnings)}"
     )
+    return calibrated
+
+
+def write_progress(env: str, project: Project) -> None:
+    week = default_as_of_week(project)
+    progress = simulate_progress(project, week, seed=DEFAULT_SEED, **PROGRESS_DEFAULTS[env])
+    progress.to_csv(progress_path(env), index=False, encoding="utf-8", lineterminator="\n")
+    s = status_at(project, progress)
+    print(f"  progress to week {week}: SPI {s.spi:.2f}, CPI {s.cpi:.2f}, {s.rag}")
 
 
 if __name__ == "__main__":
     for env in available_samples():
-        calibrate(env)
+        write_progress(env, calibrate(env))

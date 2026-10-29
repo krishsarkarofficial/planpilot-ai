@@ -81,6 +81,17 @@ N_ITERATIONS = 10_000
 RAG_GREEN = 0.95
 RAG_AMBER = 0.85
 
+# EVM: a reporting week is 5 working days. Synthetic progress defaults per environment
+# (slip stretches elapsed time, cost_overrun scales spend); the demo CSVs use these.
+WEEK_DAYS = 5
+AS_OF_SHARE = 0.55  # default status date: this share of the planned duration
+PROGRESS_DEFAULTS: dict[str, dict[str, float]] = {
+    # tuned on the frozen demo projects to SPI ~0.82 and CPI ~0.90 at the default status date
+    "software": {"slip": 1.26, "cost_overrun": 1.1},
+    "event": {"slip": 1.31, "cost_overrun": 1.1},
+    "construction": {"slip": 1.19, "cost_overrun": 1.1},
+}
+
 # add_resource efficiency (coordination overhead, cf. Brooks's law).
 DEFAULT_EFFICIENCY = 0.6
 

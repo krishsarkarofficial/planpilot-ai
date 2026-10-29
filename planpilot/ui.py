@@ -55,7 +55,7 @@ def sidebar() -> Project | None:
         k = _persistent_widget("seed", DEFAULT_SEED)
         st.number_input("Seed", min_value=0, step=1, key=k, on_change=_persist, args=(k, "seed"))
         samples = available_samples()
-        k = _persistent_widget("demo_env", samples[0])
+        k = _persistent_widget("demo_env", "software" if "software" in samples else samples[0])
         env = st.selectbox(
             "Demo project",
             samples,

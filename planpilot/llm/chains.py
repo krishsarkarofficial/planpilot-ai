@@ -3,12 +3,20 @@
 from datetime import date
 
 import numpy as np
+import pandas as pd
 from pydantic import BaseModel
 
 from planpilot.config import PRESETS, PROMPT_DIR
 from planpilot.engine.schedule import check_plan
 from planpilot.llm.client import LLMClient
 from planpilot.models import Environment, Project, Risk, Task
+from planpilot.status import (
+    ID_PATTERN,
+    StatusReport,
+    report_text,
+    status_facts,
+    unknown_figures,
+)
 
 MIN_RISKS, MAX_RISKS = 8, 12
 
@@ -124,3 +132,38 @@ def risk_chain(
     updated = with_risks(project, draft.risks)
     _, warnings = check_plan(updated)
     return updated, warnings
+
+
+def status_chain(
+    client: LLMClient,
+    project: Project,
+    progress: pd.DataFrame,
+    use_cache: bool = True,
+    temperature: float = 0.2,
+) -> StatusReport:
+    """Precomputed EVM facts -> narrated status report. Any figure not in the facts, or an
+    unknown task or risk id, triggers a retry."""
+    facts = status_facts(project, progress)
+    known_ids = {t.id for t in project.tasks} | {r.id for r in project.risks}
+
+    def check(report: StatusReport) -> list[str]:
+        errors = [
+            f"figure {x} is not in the facts; use only the numbers provided"
+            for x in unknown_figures(report, facts)
+        ]
+        bad_ids = sorted(set(ID_PATTERN.findall(report_text(report))) - known_ids)
+        if bad_ids:
+            errors.append(f"unknown task or risk ids: {', '.join(bad_ids)}")
+        return errors
+
+    return client.complete_json(
+        "status",
+        {
+            "facts": facts,
+            "example": (PROMPT_DIR / "examples" / "status.json").read_text(encoding="utf-8"),
+        },
+        StatusReport,
+        use_cache=use_cache,
+        temperature=temperature,
+        check=check,
+    )
