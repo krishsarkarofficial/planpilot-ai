@@ -3,6 +3,7 @@ from datetime import date, timedelta
 import streamlit as st
 
 from planpilot.config import PRESETS
+from planpilot.engine.schedule import check_plan
 from planpilot.llm.chains import plan_chain
 from planpilot.llm.client import LLMError
 from planpilot.ui import is_offline, llm_client, sidebar
@@ -40,11 +41,10 @@ if st.button(
 ):
     with st.spinner("Drafting the work breakdown and checking it…"):
         try:
-            new_project, warnings = plan_chain(llm_client(), env, brief, start, deadline)
-            st.session_state["project"] = new_project
-            st.session_state["generation"] = {"warnings": warnings, "error": None}
+            st.session_state["project"], _ = plan_chain(llm_client(), env, brief, start, deadline)
+            st.session_state["generation"] = {"error": None}
         except LLMError as e:
-            st.session_state["generation"] = {"warnings": [], "error": str(e)}
+            st.session_state["generation"] = {"error": str(e)}
     project = st.session_state.get("project")
 
 gen = st.session_state.get("generation")
@@ -55,8 +55,9 @@ elif gen and project is not None:
         f"Generated **{project.name}**: {len(project.tasks)} tasks in "
         f"{len({t.phase for t in project.tasks})} phases. It passed validation and the plan checks."
     )
-    for w in gen["warnings"]:
+    for w in check_plan(project)[1]:  # live, so it reflects risks added later
         st.warning(w, icon="⚠️")
     st.page_link("pages/1_Plan.py", label="Open the plan", icon="📋")
+    st.page_link("pages/2_Risks.py", label="Draft its risks", icon="⚠️")
 elif project is not None:
     st.info(f"Current project: **{project.name}** (demo). Open Plan or Simulation in the sidebar.")

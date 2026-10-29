@@ -82,16 +82,16 @@ class OpenAITransport:
         if self._json_mode.get(provider, True):
             kwargs["response_format"] = {"type": "json_object"}
 
-        for waited in (False, True):
+        waited = False
+        while True:
             try:
                 r = self._client(provider).chat.completions.create(**kwargs)
                 break
             except openai.BadRequestError as e:
                 if "response_format" in kwargs and "response_format" in str(e).lower():
-                    self._json_mode[provider] = False
+                    self._json_mode[provider] = False  # provider has no JSON mode: plain text
                     kwargs.pop("response_format")
-                    r = self._client(provider).chat.completions.create(**kwargs)
-                    break
+                    continue
                 raise LLMError(f"{provider}: {e}") from e
             except openai.RateLimitError as e:
                 msg = str(e)
@@ -99,6 +99,7 @@ class OpenAITransport:
                     raise DailyQuotaExceeded(f"{provider}: {msg}") from e
                 if waited:
                     raise LLMError(f"{provider} rate limit: {msg}") from e
+                waited = True
                 time.sleep(_retry_after(msg))
             except openai.APIError as e:
                 raise LLMError(f"{provider}: {e}") from e
