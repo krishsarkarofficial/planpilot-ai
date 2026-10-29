@@ -157,7 +157,7 @@ Budget is about 17 working hours. Claude Code does most of the typing; Krish's t
 **Thursday night (stop by 01:00, sleep)**
 - [x] **P0 Setup (21:40-22:15):** repo (create on GitHub and push now), venv, `.env.example`, `.gitignore`, `.gitattributes` (`* text=auto`), MIT licence, folders, `requirements.txt`, Groq key + model id check. *Exit: `streamlit run app/Home.py` shows a blank page; a hello call to the LLM returns text.*
 - [x] **P1 Models + presets + frozen project (22:15-23:00):** `models.py` with validators, `config.py` presets, one hand-written frozen software project. *Exit: loads and validates; cycle and bad-id tests fail as expected.*
-- [ ] **P2 Schedule + Gantt + plan checks (23:00-00:00):** `schedule.py`, `check_plan`, `viz.gantt`, page 1 loading the frozen project. *Exit: Gantt with critical path highlighted, works offline.*
+- [x] **P2 Schedule + Gantt + plan checks (23:00-00:00):** `schedule.py`, `check_plan`, `viz.gantt`, page 1 loading the frozen project. *Exit: Gantt with critical path highlighted, works offline.*
 - [ ] **P3 Monte Carlo engine + tests (00:00-01:00):** `montecarlo.py` and its tests. *Exit: percentiles, criticality, tornado data and passing tests. If not done by 01:00, stop and finish at 08:00.*
 
 **Friday**
@@ -226,6 +226,9 @@ Windows pitfalls: always `open(..., encoding="utf-8")` and `Path.read_text(encod
 - P0: no real project data, so the optional fourth (real) case in section 9 is dropped. Demo projects are synthetic.
 - P0: provider order is Groq first. Switch to Gemini only when Groq returns a daily-quota 429; a per-minute 429 waits and retries on Groq.
 - P0: Groq model `openai/gpt-oss-120b` confirmed via `models.list()`. Gemini ids come back as `models/<id>`; default `GEMINI_MODEL` is `models/gemini-flash-lite-latest` (the exact id tested with a hello call).
-- P1: `planpilot` is installed editable (`pip install -e .`, config in `pyproject.toml`) so plain `streamlit run` and `pytest` can import it. CI must run `pip install -e .` too.
+- P1: `planpilot` is installed editable (`pip install -e .`, config in `pyproject.toml`) so plain `streamlit run` and `pytest` can import it. `requirements.txt` includes `-e .`, so the normal install covers it.
 - P1: cycle detection lives in `models.topological_order`; `schedule.py` reuses it.
 - P1: the frozen software project's deadline (2027-01-08) is a placeholder until calibration to about P65 in `make_demo_data.py`.
+- P2: `check_plan` holds only the count and phase errors plus the warnings. Structural errors (cycle, unknown id or role) come from Pydantic validation; both kinds feed the LLM retry.
+- P2: "stated timeframe" = working days from `start_date` to `deadline`. "No parallel paths" = no two tasks overlap in the most-likely CPM schedule. "Risk category missing" fires when fewer than 3 of the 6 categories are covered. "Non-terminal task with no successor" = a task with no successor that finishes before the project end.
+- P2: a task occupies working days [ES, EF); `finish` is its last working day (inclusive).
