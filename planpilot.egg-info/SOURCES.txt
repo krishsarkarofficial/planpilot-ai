@@ -1,8 +1,0 @@
-LICENSE
-pyproject.toml
-planpilot/__init__.py
-planpilot.egg-info/PKG-INFO
-planpilot.egg-info/SOURCES.txt
-planpilot.egg-info/dependency_links.txt
-planpilot.egg-info/top_level.txt
-planpilot/engine/__init__.py
