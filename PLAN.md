@@ -161,7 +161,7 @@ Budget is about 17 working hours. Claude Code does most of the typing; Krish's t
 - [x] **P3 Monte Carlo engine + tests (00:00-01:00):** `montecarlo.py` and its tests. *Exit: percentiles, criticality, tornado data and passing tests. If not done by 01:00, stop and finish at 08:00.*
 
 **Friday**
-- [ ] **P4 Simulation charts + page 3 (08:00-09:15):** histogram with P-lines, S-curve, tornado, criticality chart.
+- [x] **P4 Simulation charts + page 3 (08:00-09:15):** histogram with P-lines, S-curve, tornado, criticality chart.
 - [ ] **P5 LLM layer + plan chain (09:15-10:45):** `client.py`, `cache.py`, `wbs.md`, `plan_chain`, Home page generate button. *Exit: brief -> valid plan; button-only calls; retry works.*
 - [ ] **P6 Risk chain + register + heatmap (10:45-12:00):** `risks.md`, `risk_chain`, page 2, risks wired into the simulation.
 - [ ] **MVP CHECKPOINT (12:15):** brief -> plan -> risks -> simulation works end to end, offline demo works, tests pass, basic README pushed. **If not true by 13:00, stop adding features and fix it.**
@@ -236,3 +236,6 @@ Windows pitfalls: always `open(..., encoding="utf-8")` and `Path.read_text(encod
 - P3: triangular sampling uses the inverse CDF on uniform draws (`rng.triangular` fails when o = p). Each task and risk has its own random stream `default_rng([seed, id number])` (risks offset by 1000), so cutting a task leaves every other draw unchanged. A risk fires when its uniform draw < probability, so lowering a probability only removes events.
 - P3: risk-delay days are charged at the affected task's role rate.
 - P3: lowering a risk probability lowers every percentile but not always the P90-P50 spread (a frequent risk shifts P50 as well). The P8 `mitigate_risk` test asserts lower P80/P90, or spread only on a case where it holds.
+- P4: `make_demo_data.py` currently only validates and calibrates (progress CSVs come in P7). It rewrites just the `deadline` field so the hand-written JSON layout stays; it is idempotent. Software deadline: 19 Jan 2027 (57 working days, P(on time) 0.68 at seed 42).
+- P4: the simulation cache lives in `planpilot/ui.py` (`st.cache_data` keyed on the project JSON + seed), keeping Streamlit out of `engine/`. Seed and demo choice are stored under plain session keys because Streamlit drops widget state on page switch.
+- P4: ruff pinned to 0.17.3 with an explicit rule set so CI lints the same way.

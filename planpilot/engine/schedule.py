@@ -1,6 +1,7 @@
 """Critical path method on most-likely durations, calendar dates and plan checks."""
 
 from dataclasses import dataclass
+from datetime import date
 
 import numpy as np
 import pandas as pd
@@ -100,6 +101,12 @@ def deadline_days(project: Project) -> int:
     """
     last = np.datetime64(project.deadline, "D") + 1
     return int(np.busday_count(np.datetime64(project.start_date, "D"), last))
+
+
+def finish_date(project: Project, duration: float) -> date:
+    """Last working day of a project lasting `duration` working days (inverse of deadline_days)."""
+    last_idx = max(int(np.ceil(duration - EPS)), 1) - 1
+    return working_day_to_date(project.start_date, last_idx).astype(date)
 
 
 def check_plan(project: Project) -> tuple[list[str], list[str]]:

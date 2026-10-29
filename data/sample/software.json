@@ -1,9 +1,9 @@
 {
   "name": "College Placement Portal",
   "environment": "software",
-  "brief": "Build a web portal for the college Training and Placement Office (TPO). Students maintain profiles and resumes, companies post drives and jobs, students apply, and the TPO tracks applications, shortlists and offers with an admin dashboard and reports. Email notifications for new drives and status changes. Past placement records from spreadsheets must be migrated. Team of eight; target go-live before the January placement season, about ten weeks.",
+  "brief": "Build a web portal for the college Training and Placement Office (TPO). Students maintain profiles and resumes, companies post drives and jobs, students apply, and the TPO tracks applications, shortlists and offers with an admin dashboard and reports. Email notifications for new drives and status changes. Past placement records from spreadsheets must be migrated. Team of eight; target go-live by mid-January for the placement season, about eleven weeks.",
   "start_date": "2026-11-02",
-  "deadline": "2027-01-08",
+  "deadline": "2027-01-19",
   "team": {"pm": 1, "analyst": 1, "designer": 1, "developer": 3, "tester": 1, "devops": 1},
   "tasks": [
     {"id": "T01", "name": "Stakeholder interviews (TPO, students, recruiters)", "phase": "Discovery", "role": "analyst", "optimistic": 3, "most_likely": 4, "pessimistic": 6, "depends_on": []},

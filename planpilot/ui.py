@@ -1,20 +1,54 @@
-"""Shared Streamlit sidebar and project state."""
+"""Shared Streamlit sidebar, project state and cached simulation."""
 
 import streamlit as st
 
 from planpilot.config import DEFAULT_SEED, PRESETS
+from planpilot.engine.montecarlo import SimResult, simulate
 from planpilot.models import Project
 from planpilot.samples import available_samples, load_sample
+
+
+def _persist(widget_key: str, store_key: str) -> None:
+    st.session_state[store_key] = st.session_state[widget_key]
+
+
+def _persistent_widget(store_key: str, default) -> str:
+    """Streamlit drops widget state on page switch, so keep the value under a plain key."""
+    st.session_state.setdefault(store_key, default)
+    widget_key = f"_{store_key}"
+    st.session_state[widget_key] = st.session_state[store_key]
+    return widget_key
 
 
 def sidebar() -> Project | None:
     """Render the sidebar and return the current project (or None)."""
     with st.sidebar:
-        st.number_input("Seed", min_value=0, value=DEFAULT_SEED, step=1, key="seed")
+        k = _persistent_widget("seed", DEFAULT_SEED)
+        st.number_input("Seed", min_value=0, step=1, key=k, on_change=_persist, args=(k, "seed"))
         samples = available_samples()
+        k = _persistent_widget("demo_env", samples[0])
         env = st.selectbox(
-            "Demo project", samples, format_func=lambda e: PRESETS[e].label, key="demo_env"
+            "Demo project",
+            samples,
+            format_func=lambda e: PRESETS[e].label,
+            key=k,
+            on_change=_persist,
+            args=(k, "demo_env"),
         )
         if st.button("Load demo project", width="stretch"):
             st.session_state["project"] = load_sample(env)
     return st.session_state.get("project")
+
+
+def current_seed() -> int:
+    return int(st.session_state.get("seed", DEFAULT_SEED))
+
+
+@st.cache_data(show_spinner="Running 10,000 simulations…", max_entries=32)
+def _simulate_cached(project_json: str, seed: int) -> SimResult:
+    return simulate(Project.model_validate_json(project_json), seed=seed)
+
+
+def run_simulation(project: Project, seed: int) -> SimResult:
+    """Monte Carlo result, cached on the project's JSON and the seed."""
+    return _simulate_cached(project.model_dump_json(), seed)

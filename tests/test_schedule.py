@@ -1,10 +1,11 @@
 from datetime import date
 
+import numpy as np
 import pandas as pd
 import pytest
 from factories import make_project, risk
 
-from planpilot.engine.schedule import check_plan, cpm, deadline_days, schedule_frame
+from planpilot.engine.schedule import check_plan, cpm, deadline_days, finish_date, schedule_frame
 from planpilot.samples import load_sample
 
 DIAMOND = [
@@ -45,6 +46,13 @@ def test_deadline_days_includes_deadline():
     assert deadline_days(make_project(DIAMOND, deadline=date(2026, 11, 6))) == 5
     # A Saturday deadline gives the same 5 days.
     assert deadline_days(make_project(DIAMOND, deadline=date(2026, 11, 7))) == 5
+
+
+@pytest.mark.parametrize("d", [1, 4.2, 5, 6, 23.7, 50])
+def test_finish_date_round_trips_with_deadline_days(d):
+    p = make_project(DIAMOND)
+    end = finish_date(p, d)
+    assert deadline_days(p.model_copy(update={"deadline": end})) == int(np.ceil(d))
 
 
 def test_frozen_project_passes_checks():
