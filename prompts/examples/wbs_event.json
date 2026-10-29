@@ -1,0 +1,10 @@
+{"name": "Department Freshers' Night", "tasks": [
+  {"id": "T01", "name": "Fix date, venue and budget with faculty", "phase": "Planning", "role": "coordinator", "optimistic": 2, "most_likely": 3, "pessimistic": 5, "depends_on": []},
+  {"id": "T02", "name": "Draft budget and sponsorship asks", "phase": "Planning", "role": "finance", "optimistic": 1, "most_likely": 2, "pessimistic": 3, "depends_on": ["T01"]},
+  {"id": "T03", "name": "Design posters and social posts", "phase": "Promotion", "role": "designer", "optimistic": 2, "most_likely": 3, "pessimistic": 4, "depends_on": ["T01"]},
+  {"id": "T04", "name": "Run social media campaign", "phase": "Promotion", "role": "marketing", "optimistic": 4, "most_likely": 5, "pessimistic": 7, "depends_on": ["T03"]},
+  {"id": "T05", "name": "Book sound and lighting", "phase": "Logistics", "role": "tech_crew", "optimistic": 2, "most_likely": 3, "pessimistic": 5, "depends_on": ["T02"]},
+  {"id": "T06", "name": "Arrange seating, food and security", "phase": "Logistics", "role": "logistics", "optimistic": 2, "most_likely": 4, "pessimistic": 6, "depends_on": ["T02"]},
+  {"id": "T07", "name": "Brief volunteers and rehearse", "phase": "Event", "role": "volunteer_lead", "optimistic": 1, "most_likely": 2, "pessimistic": 3, "depends_on": ["T04", "T05", "T06"]},
+  {"id": "T08", "name": "Run the event and settle accounts", "phase": "Event", "role": "coordinator", "optimistic": 1, "most_likely": 2, "pessimistic": 3, "depends_on": ["T07"]}
+]}

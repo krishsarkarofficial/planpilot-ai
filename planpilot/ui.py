@@ -2,8 +2,9 @@
 
 import streamlit as st
 
-from planpilot.config import DEFAULT_SEED, PRESETS
+from planpilot.config import DEFAULT_SEED, PRESETS, PROVIDERS, offline_default
 from planpilot.engine.montecarlo import SimResult, simulate
+from planpilot.llm.client import LLMClient
 from planpilot.models import Project
 from planpilot.samples import available_samples, load_sample
 
@@ -20,9 +21,37 @@ def _persistent_widget(store_key: str, default) -> str:
     return widget_key
 
 
+@st.cache_resource
+def _client() -> LLMClient:
+    """One client per server process, so a switch to the fallback provider sticks."""
+    return LLMClient()
+
+
+def llm_client() -> LLMClient:
+    client = _client()
+    client.offline = is_offline()
+    return client
+
+
+def is_offline() -> bool:
+    return bool(st.session_state.get("offline", offline_default()))
+
+
 def sidebar() -> Project | None:
     """Render the sidebar and return the current project (or None)."""
     with st.sidebar:
+        k = _persistent_widget("offline", offline_default())
+        st.toggle(
+            "Offline (frozen demo projects only)",
+            key=k,
+            on_change=_persist,
+            args=(k, "offline"),
+        )
+        if is_offline():
+            st.caption("LLM: off")
+        else:
+            provider = _client().provider
+            st.caption(f"LLM: {provider} · `{PROVIDERS[provider]['model']}`")
         k = _persistent_widget("seed", DEFAULT_SEED)
         st.number_input("Seed", min_value=0, step=1, key=k, on_change=_persist, args=(k, "seed"))
         samples = available_samples()
@@ -37,6 +66,7 @@ def sidebar() -> Project | None:
         )
         if st.button("Load demo project", width="stretch"):
             st.session_state["project"] = load_sample(env)
+            st.session_state.pop("generation", None)
     return st.session_state.get("project")
 
 

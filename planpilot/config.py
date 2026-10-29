@@ -1,6 +1,13 @@
-"""Environment presets, seeds and thresholds."""
+"""Environment presets, seeds, thresholds and LLM provider settings."""
 
+import os
 from dataclasses import dataclass
+from pathlib import Path
+
+from dotenv import load_dotenv
+
+ROOT = Path(__file__).resolve().parents[1]
+load_dotenv(ROOT / ".env", encoding="utf-8")
 
 
 @dataclass(frozen=True)
@@ -76,3 +83,24 @@ RAG_AMBER = 0.85
 
 # add_resource efficiency (coordination overhead, cf. Brooks's law).
 DEFAULT_EFFICIENCY = 0.6
+
+# LLM providers (OpenAI-compatible). Groq first; Gemini once Groq's daily quota is used up.
+PROVIDERS: dict[str, dict[str, str]] = {
+    "groq": {
+        "base_url": "https://api.groq.com/openai/v1",
+        "model": os.getenv("GROQ_MODEL") or "openai/gpt-oss-120b",
+        "key_env": "GROQ_API_KEY",
+    },
+    "gemini": {
+        "base_url": "https://generativelanguage.googleapis.com/v1beta/openai/",
+        "model": os.getenv("GEMINI_MODEL") or "models/gemini-flash-lite-latest",
+        "key_env": "GEMINI_API_KEY",
+    },
+}
+PROVIDER_ORDER = ["groq", "gemini"]
+PROMPT_DIR = ROOT / "prompts"
+CACHE_DIR = ROOT / "data" / "cache"
+
+
+def offline_default() -> bool:
+    return os.getenv("PLANPILOT_OFFLINE", "") == "1"

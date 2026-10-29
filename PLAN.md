@@ -162,7 +162,7 @@ Budget is about 17 working hours. Claude Code does most of the typing; Krish's t
 
 **Friday**
 - [x] **P4 Simulation charts + page 3 (08:00-09:15):** histogram with P-lines, S-curve, tornado, criticality chart.
-- [ ] **P5 LLM layer + plan chain (09:15-10:45):** `client.py`, `cache.py`, `wbs.md`, `plan_chain`, Home page generate button. *Exit: brief -> valid plan; button-only calls; retry works.*
+- [x] **P5 LLM layer + plan chain (09:15-10:45):** `client.py`, `cache.py`, `wbs.md`, `plan_chain`, Home page generate button. *Exit: brief -> valid plan; button-only calls; retry works.*
 - [ ] **P6 Risk chain + register + heatmap (10:45-12:00):** `risks.md`, `risk_chain`, page 2, risks wired into the simulation.
 - [ ] **MVP CHECKPOINT (12:15):** brief -> plan -> risks -> simulation works end to end, offline demo works, tests pass, basic README pushed. **If not true by 13:00, stop adding features and fix it.**
 - [ ] **P7 EVM + status report (13:00-14:30):** `evm.py`, `simulate_progress`, gauges, PV/EV/AC curves, `status_chain`, page 4. Two further frozen projects (event, construction) added here.
@@ -239,3 +239,8 @@ Windows pitfalls: always `open(..., encoding="utf-8")` and `Path.read_text(encod
 - P4: `make_demo_data.py` currently only validates and calibrates (progress CSVs come in P7). It rewrites just the `deadline` field so the hand-written JSON layout stays; it is idempotent. Software deadline: 19 Jan 2027 (57 working days, P(on time) 0.68 at seed 42).
 - P4: the simulation cache lives in `planpilot/ui.py` (`st.cache_data` keyed on the project JSON + seed), keeping Streamlit out of `engine/`. Seed and demo choice are stored under plain session keys because Streamlit drops widget state on page switch.
 - P4: ruff pinned to 0.17.3 with an explicit rule set so CI lints the same way.
+- P5: the LLM returns only `{name, tasks}` (`WBSDraft`); `plan_chain` builds the `Project` from the Home inputs and the preset team. `complete_json` takes an optional `check` callable, and JSON errors, Pydantic errors on the assembled `Project` and `check_plan` errors all trigger a retry.
+- P5: prompts use `string.Template` (`$var`), because the JSON few-shot has braces. The retry text lives in `prompts/retry.md`; appended errors are cut to 10 lines. Few-shot examples are per environment in `prompts/examples/`.
+- P5: the SDK runs with `max_retries=0`. A 429 that mentions a daily limit (TPD/RPD, "per day") switches to Gemini for the rest of the server process; any other 429 gets one bounded wait (at most 30 s) and one retry. `finish_reason == "length"` counts as a failed attempt.
+- P5: the cache key uses the initial prompt; only responses that pass every check are stored, and a cache hit is re-checked. Offline mode raises before the cache lookup and before any client is built.
+- P5: known limitation: the LLM cannot pin an event date (e.g. "fest in late January"); tasks are scheduled as early as dependencies allow.

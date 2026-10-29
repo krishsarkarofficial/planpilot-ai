@@ -1,0 +1,10 @@
+{"name": "Library Seat Booking App", "tasks": [
+  {"id": "T01", "name": "Gather requirements from library staff", "phase": "Discovery", "role": "analyst", "optimistic": 2, "most_likely": 3, "pessimistic": 5, "depends_on": []},
+  {"id": "T02", "name": "Plan sprints and set up repository", "phase": "Discovery", "role": "pm", "optimistic": 1, "most_likely": 1, "pessimistic": 2, "depends_on": []},
+  {"id": "T03", "name": "Design booking screens", "phase": "Design", "role": "designer", "optimistic": 2, "most_likely": 3, "pessimistic": 5, "depends_on": ["T01"]},
+  {"id": "T04", "name": "Design database schema", "phase": "Design", "role": "developer", "optimistic": 1, "most_likely": 2, "pessimistic": 3, "depends_on": ["T01", "T02"]},
+  {"id": "T05", "name": "Build booking API", "phase": "Build", "role": "developer", "optimistic": 4, "most_likely": 6, "pessimistic": 9, "depends_on": ["T04"]},
+  {"id": "T06", "name": "Build web frontend", "phase": "Build", "role": "developer", "optimistic": 4, "most_likely": 5, "pessimistic": 8, "depends_on": ["T03", "T04"]},
+  {"id": "T07", "name": "Integration and acceptance testing", "phase": "Release", "role": "tester", "optimistic": 2, "most_likely": 3, "pessimistic": 5, "depends_on": ["T05", "T06"]},
+  {"id": "T08", "name": "Deploy to college server", "phase": "Release", "role": "devops", "optimistic": 1, "most_likely": 1, "pessimistic": 2, "depends_on": ["T07"]}
+]}

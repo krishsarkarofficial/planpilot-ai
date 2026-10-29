@@ -1,0 +1,10 @@
+{"name": "Seminar Room Refit", "tasks": [
+  {"id": "T01", "name": "Survey room and record services", "phase": "Survey", "role": "site_engineer", "optimistic": 1, "most_likely": 2, "pessimistic": 3, "depends_on": []},
+  {"id": "T02", "name": "Prepare layout drawings", "phase": "Survey", "role": "architect", "optimistic": 2, "most_likely": 3, "pessimistic": 5, "depends_on": ["T01"]},
+  {"id": "T03", "name": "Strip old fittings", "phase": "Civil works", "role": "mason", "optimistic": 2, "most_likely": 3, "pessimistic": 4, "depends_on": ["T02"]},
+  {"id": "T04", "name": "Repair walls and floor screed", "phase": "Civil works", "role": "mason", "optimistic": 3, "most_likely": 4, "pessimistic": 7, "depends_on": ["T03"]},
+  {"id": "T05", "name": "Rewire power and data points", "phase": "Services", "role": "electrician", "optimistic": 3, "most_likely": 4, "pessimistic": 6, "depends_on": ["T03"]},
+  {"id": "T06", "name": "Fit cabinets and benches", "phase": "Services", "role": "carpenter", "optimistic": 2, "most_likely": 3, "pessimistic": 5, "depends_on": ["T04"]},
+  {"id": "T07", "name": "Snag inspection", "phase": "Handover", "role": "supervisor", "optimistic": 1, "most_likely": 1, "pessimistic": 2, "depends_on": ["T05", "T06"]},
+  {"id": "T08", "name": "Handover to department", "phase": "Handover", "role": "site_engineer", "optimistic": 1, "most_likely": 1, "pessimistic": 2, "depends_on": ["T07"]}
+]}
