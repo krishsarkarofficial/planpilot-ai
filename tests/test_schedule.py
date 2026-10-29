@@ -2,54 +2,10 @@ from datetime import date
 
 import pandas as pd
 import pytest
+from factories import make_project, risk
 
-from planpilot.engine.schedule import check_plan, cpm, schedule_frame
-from planpilot.models import Project, Risk
+from planpilot.engine.schedule import check_plan, cpm, deadline_days, schedule_frame
 from planpilot.samples import load_sample
-
-
-def make_project(tasks: list[tuple], deadline=date(2026, 12, 31), risks=()) -> Project:
-    """tasks: (id, phase, most_likely, depends_on)."""
-    return Project(
-        name="test",
-        environment="software",
-        brief="",
-        start_date=date(2026, 11, 2),  # Monday
-        deadline=deadline,
-        team={"developer": 1},
-        tasks=[
-            {
-                "id": tid,
-                "name": tid,
-                "phase": phase,
-                "role": "developer",
-                "optimistic": m,
-                "most_likely": m,
-                "pessimistic": m + 1,
-                "depends_on": deps,
-            }
-            for tid, phase, m, deps in tasks
-        ],
-        risks=list(risks),
-    )
-
-
-def risk(rid: str, category: str) -> Risk:
-    return Risk(
-        id=rid,
-        title=rid,
-        category=category,
-        cause="c",
-        event="e",
-        effect="f",
-        probability=0.5,
-        impact_days=1,
-        affected_task_ids=["T01"],
-        owner_role="developer",
-        response_strategy="accept",
-        response="r",
-    )
-
 
 DIAMOND = [
     ("T01", "A", 3, []),
@@ -82,6 +38,13 @@ def test_dates_skip_weekends():
     # T03 occupies days 3-6: Thu 5 Nov to Tue 10 Nov (skips the weekend).
     assert row.loc["T03", "start"] == pd.Timestamp("2026-11-05")
     assert row.loc["T03", "finish"] == pd.Timestamp("2026-11-10")
+
+
+def test_deadline_days_includes_deadline():
+    # Mon 2 Nov to Fri 6 Nov 2026 inclusive = 5 working days.
+    assert deadline_days(make_project(DIAMOND, deadline=date(2026, 11, 6))) == 5
+    # A Saturday deadline gives the same 5 days.
+    assert deadline_days(make_project(DIAMOND, deadline=date(2026, 11, 7))) == 5
 
 
 def test_frozen_project_passes_checks():

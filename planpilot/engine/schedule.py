@@ -93,9 +93,13 @@ def schedule_frame(project: Project, sched: Schedule) -> pd.DataFrame:
     )
 
 
-def stated_timeframe_days(project: Project) -> int:
-    """Working days from start_date to deadline."""
-    return int(np.busday_count(project.start_date, project.deadline))
+def deadline_days(project: Project) -> int:
+    """Working days available from start_date up to and including the deadline.
+
+    A project of duration D (working days [0, D)) meets the deadline iff D <= deadline_days.
+    """
+    last = np.datetime64(project.deadline, "D") + 1
+    return int(np.busday_count(np.datetime64(project.start_date, "D"), last))
 
 
 def check_plan(project: Project) -> tuple[list[str], list[str]]:
@@ -133,7 +137,7 @@ def check_plan(project: Project) -> tuple[list[str], list[str]]:
     if not _has_overlap(sched):
         warnings.append("no parallel paths: no two tasks overlap in the schedule")
 
-    timeframe = stated_timeframe_days(project)
+    timeframe = deadline_days(project)
     if not 0.5 * timeframe <= sched.duration <= 2 * timeframe:
         warnings.append(
             f"CPM duration {sched.duration:g} working days is outside 0.5x-2x of the "

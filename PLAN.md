@@ -158,7 +158,7 @@ Budget is about 17 working hours. Claude Code does most of the typing; Krish's t
 - [x] **P0 Setup (21:40-22:15):** repo (create on GitHub and push now), venv, `.env.example`, `.gitignore`, `.gitattributes` (`* text=auto`), MIT licence, folders, `requirements.txt`, Groq key + model id check. *Exit: `streamlit run app/Home.py` shows a blank page; a hello call to the LLM returns text.*
 - [x] **P1 Models + presets + frozen project (22:15-23:00):** `models.py` with validators, `config.py` presets, one hand-written frozen software project. *Exit: loads and validates; cycle and bad-id tests fail as expected.*
 - [x] **P2 Schedule + Gantt + plan checks (23:00-00:00):** `schedule.py`, `check_plan`, `viz.gantt`, page 1 loading the frozen project. *Exit: Gantt with critical path highlighted, works offline.*
-- [ ] **P3 Monte Carlo engine + tests (00:00-01:00):** `montecarlo.py` and its tests. *Exit: percentiles, criticality, tornado data and passing tests. If not done by 01:00, stop and finish at 08:00.*
+- [x] **P3 Monte Carlo engine + tests (00:00-01:00):** `montecarlo.py` and its tests. *Exit: percentiles, criticality, tornado data and passing tests. If not done by 01:00, stop and finish at 08:00.*
 
 **Friday**
 - [ ] **P4 Simulation charts + page 3 (08:00-09:15):** histogram with P-lines, S-curve, tornado, criticality chart.
@@ -232,3 +232,7 @@ Windows pitfalls: always `open(..., encoding="utf-8")` and `Path.read_text(encod
 - P2: `check_plan` holds only the count and phase errors plus the warnings. Structural errors (cycle, unknown id or role) come from Pydantic validation; both kinds feed the LLM retry.
 - P2: "stated timeframe" = working days from `start_date` to `deadline`. "No parallel paths" = no two tasks overlap in the most-likely CPM schedule. "Risk category missing" fires when fewer than 3 of the 6 categories are covered. "Non-terminal task with no successor" = a task with no successor that finishes before the project end.
 - P2: a task occupies working days [ES, EF); `finish` is its last working day (inclusive).
+- P3: `deadline_days` = working days from start up to and including the deadline; on time iff duration <= deadline_days. The Gantt deadline line sits at the end of the deadline day. Calibration sets deadline = `busday_offset(start, ceil(P65) - 1)`.
+- P3: triangular sampling uses the inverse CDF on uniform draws (`rng.triangular` fails when o = p). Each task and risk has its own random stream `default_rng([seed, id number])` (risks offset by 1000), so cutting a task leaves every other draw unchanged. A risk fires when its uniform draw < probability, so lowering a probability only removes events.
+- P3: risk-delay days are charged at the affected task's role rate.
+- P3: lowering a risk probability lowers every percentile but not always the P90-P50 spread (a frequent risk shifts P50 as well). The P8 `mitigate_risk` test asserts lower P80/P90, or spread only on a case where it holds.

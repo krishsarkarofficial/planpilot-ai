@@ -1,7 +1,7 @@
 import streamlit as st
 
 from planpilot import viz
-from planpilot.engine.schedule import check_plan, cpm, schedule_frame, stated_timeframe_days
+from planpilot.engine.schedule import check_plan, cpm, deadline_days, schedule_frame
 from planpilot.ui import sidebar
 
 st.set_page_config(page_title="Plan · PlanPilot AI", layout="wide")
@@ -67,7 +67,7 @@ with st.expander("How this was computed"):
 - **Plan checks:** structural problems (cycles, unknown ids or roles) are rejected when the
   plan is loaded. The checks above flag plan-quality issues: task count (12–30), phases
   with fewer than two tasks, dead-end tasks, a single start task, no parallel work,
-  CPM duration outside 0.5×–2× of the {stated_timeframe_days(project)}-working-day
+  CPM duration outside 0.5×–2× of the {deadline_days(project)}-working-day
   timeframe, and fewer than three risk categories.
 - No LLM is involved in any number on this page.
 """

@@ -38,7 +38,7 @@ def gantt(df: pd.DataFrame, deadline: date | None = None) -> go.Figure:
     fig.update_yaxes(title=None)
     fig.update_xaxes(title=None)
     if deadline is not None:
-        x = pd.Timestamp(deadline)
+        x = pd.Timestamp(deadline) + pd.Timedelta(days=1)  # end of the deadline day
         fig.add_shape(
             type="line",
             x0=x,
