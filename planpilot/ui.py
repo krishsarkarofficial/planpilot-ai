@@ -1,11 +1,13 @@
 """Shared Streamlit sidebar, project state and cached simulation."""
 
 import streamlit as st
+from pydantic import TypeAdapter
 
 from planpilot.config import DEFAULT_SEED, PRESETS, PROVIDERS, offline_default
+from planpilot.engine.decision import Comparison, compare
 from planpilot.engine.montecarlo import SimResult, simulate
 from planpilot.llm.client import LLMClient
-from planpilot.models import Project
+from planpilot.models import Option, Project
 from planpilot.samples import available_samples, load_sample
 
 
@@ -82,3 +84,18 @@ def _simulate_cached(project_json: str, seed: int) -> SimResult:
 def run_simulation(project: Project, seed: int) -> SimResult:
     """Monte Carlo result, cached on the project's JSON and the seed."""
     return _simulate_cached(project.model_dump_json(), seed)
+
+
+_OPTIONS = TypeAdapter(list[Option])
+
+
+@st.cache_data(show_spinner="Simulating each option…", max_entries=8)
+def _compare_cached(project_json: str, options_json: str, seed: int) -> Comparison:
+    return compare(
+        Project.model_validate_json(project_json), _OPTIONS.validate_json(options_json), seed=seed
+    )
+
+
+def run_comparison(project: Project, options: list[Option], seed: int) -> Comparison:
+    """Baseline and options simulated with one seed, cached on the project, options and seed."""
+    return _compare_cached(project.model_dump_json(), _OPTIONS.dump_json(options).decode(), seed)

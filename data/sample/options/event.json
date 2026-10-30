@@ -1,0 +1,40 @@
+[
+  {
+    "name": "Add one marketing person",
+    "description": "A second marketing volunteer takes on part of the sponsorship outreach and the social campaign.",
+    "changes": [
+      {
+        "type": "add_resource",
+        "role": "marketing",
+        "added_people": 1
+      }
+    ]
+  },
+  {
+    "name": "Drop the robotics arena",
+    "description": "Remove the robotics arena from the fest, which also removes the risk of it failing testing.",
+    "changes": [
+      {
+        "type": "cut_scope",
+        "task_ids": [
+          "T10"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Secure sponsors and funds early",
+    "description": "Pre-sign sponsors and agree a staged fund release with the college.",
+    "changes": [
+      {
+        "type": "mitigate_risk",
+        "risk_ids": [
+          "R01",
+          "R03"
+        ],
+        "probability_multiplier": 0.4,
+        "cost": 30000
+      }
+    ]
+  }
+]

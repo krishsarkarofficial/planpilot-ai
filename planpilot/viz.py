@@ -7,6 +7,7 @@ import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
 
+from planpilot.engine.decision import Comparison
 from planpilot.engine.montecarlo import SimResult
 
 BLUE = "#2a78d6"  # categorical slot 1
@@ -257,6 +258,81 @@ def evm_curves(planned: pd.DataFrame, series: pd.DataFrame, bac: float) -> go.Fi
         legend={"orientation": "h", "y": -0.18, "x": 0},
         xaxis={"title": "Week", "dtick": 1},
         yaxis={"title": "₹ lakh (cumulative)", "rangemode": "tozero"},
+    )
+    return fig
+
+
+def _alternative_colours(names: list[str]) -> dict[str, str]:
+    """Baseline grey, the options in categorical order."""
+    palette = [BLUE, ORANGE, AQUA]
+    return {n: MUTED if i == 0 else palette[(i - 1) % len(palette)] for i, n in enumerate(names)}
+
+
+def option_scurves(comparison: Comparison) -> go.Figure:
+    """S-curve of every alternative (same random draws); a dot marks each one's own deadline."""
+    names = list(comparison.metrics.index)
+    colours = _alternative_colours(names)
+    qs = np.linspace(0, 100, 201)
+    fig = go.Figure()
+    for r in comparison.results:
+        fig.add_trace(
+            go.Scatter(
+                x=np.percentile(r.sim.durations, qs),
+                y=qs / 100,
+                name=r.name,
+                mode="lines",
+                line={"color": colours[r.name], "width": 3 if r.name == names[0] else 2},
+                hovertemplate=r.name + "<br>Within %{x:.1f} working days: %{y:.0%}<extra></extra>",
+            )
+        )
+        fig.add_trace(
+            go.Scatter(
+                x=[r.sim.deadline_days],
+                y=[r.sim.prob_on_time],
+                name=f"{r.name}: deadline",
+                showlegend=False,
+                mode="markers+text",
+                text=[f"{r.sim.prob_on_time:.0%}"],
+                textposition="middle left",
+                textfont={"color": colours[r.name]},
+                marker={"color": colours[r.name], "size": 10},
+                hovertemplate=r.name + "<br>P(on time) %{y:.0%}<extra></extra>",
+            )
+        )
+    fig.update_layout(
+        height=430,
+        margin={**MARGIN, "t": 20},
+        legend={"orientation": "h", "y": -0.2, "x": 0},
+        xaxis_title="Project duration (working days)",
+        yaxis={"title": "Probability of finishing", "tickformat": ".0%", "range": [0, 1.02]},
+    )
+    return fig
+
+
+def scenario_scores(comparison: Comparison) -> go.Figure:
+    """Weighted score (0-1, higher is better) of each alternative under each weight scenario."""
+    names = list(comparison.metrics.index)
+    colours = _alternative_colours(names)
+    fig = go.Figure()
+    for name in names:
+        fig.add_trace(
+            go.Bar(
+                name=name,
+                x=list(comparison.scores),
+                y=[float(comparison.scores[s][name]) for s in comparison.scores],
+                marker={"color": colours[name]},
+                text=[f"{comparison.scores[s][name]:.2f}" for s in comparison.scores],
+                textposition="outside",
+                hovertemplate=name + "<br>%{x}: %{y:.2f}<extra></extra>",
+            )
+        )
+    fig.update_layout(
+        barmode="group",
+        height=430,
+        margin={**MARGIN, "t": 20},
+        legend={"orientation": "h", "y": -0.2, "x": 0},
+        xaxis_title="Weight scenario",
+        yaxis={"title": "Weighted score (1 = best)", "range": [0, 1.1]},
     )
     return fig
 

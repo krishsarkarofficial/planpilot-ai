@@ -1,0 +1,44 @@
+[
+  {
+    "name": "Add two developers",
+    "description": "Bring two more developers onto the build phase. Faster, but more people to coordinate (efficiency 0.6).",
+    "changes": [
+      {
+        "type": "add_resource",
+        "role": "developer",
+        "added_people": 2
+      }
+    ]
+  },
+  {
+    "name": "Drop the admin dashboard",
+    "description": "Defer admin dashboard and reports to a later release, which also removes the risk of late report requests.",
+    "changes": [
+      {
+        "type": "cut_scope",
+        "task_ids": [
+          "T12"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Mitigate risks and add a buffer",
+    "description": "Pay for early integration tests and an exam-aware UAT slot, and ask the TPO for three more working days.",
+    "changes": [
+      {
+        "type": "mitigate_risk",
+        "risk_ids": [
+          "R06",
+          "R04"
+        ],
+        "probability_multiplier": 0.4,
+        "cost": 30000
+      },
+      {
+        "type": "extend_deadline",
+        "days": 3
+      }
+    ]
+  }
+]

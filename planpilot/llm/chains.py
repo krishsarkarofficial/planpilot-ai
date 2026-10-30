@@ -7,8 +7,10 @@ import pandas as pd
 from pydantic import BaseModel
 
 from planpilot.config import PRESETS, PROMPT_DIR
+from planpilot.engine.decision import Comparison
 from planpilot.engine.schedule import check_plan
 from planpilot.llm.client import LLMClient
+from planpilot.memo import RECOMMENDATION_SCENARIO, DecisionMemo, memo_facts, memo_text
 from planpilot.models import Environment, Project, Risk, Task
 from planpilot.status import (
     ID_PATTERN,
@@ -16,6 +18,7 @@ from planpilot.status import (
     report_text,
     status_facts,
     unknown_figures,
+    unknown_numbers,
 )
 
 MIN_RISKS, MAX_RISKS = 8, 12
@@ -163,6 +166,49 @@ def status_chain(
             "example": (PROMPT_DIR / "examples" / "status.json").read_text(encoding="utf-8"),
         },
         StatusReport,
+        use_cache=use_cache,
+        temperature=temperature,
+        check=check,
+    )
+
+
+def memo_chain(
+    client: LLMClient,
+    project: Project,
+    comparison: Comparison,
+    seed: int,
+    use_cache: bool = True,
+    temperature: float = 0.2,
+) -> DecisionMemo:
+    """Precomputed option comparison -> decision memo. A figure not in the facts, an unknown
+    task or risk id, or a recommendation that differs from the code's ranking triggers a retry."""
+    facts = memo_facts(project, comparison, seed)
+    known_ids = {t.id for t in project.tasks} | {r.id for r in project.risks}
+    winner = comparison.winners[RECOMMENDATION_SCENARIO]
+
+    def check(memo: DecisionMemo) -> list[str]:
+        text = memo_text(memo)
+        errors = [
+            f"figure {x} is not in the facts; use only the numbers provided"
+            for x in unknown_numbers(text, facts)
+        ]
+        bad_ids = sorted(set(ID_PATTERN.findall(text)) - known_ids)
+        if bad_ids:
+            errors.append(f"unknown task or risk ids: {', '.join(bad_ids)}")
+        if memo.recommended_option != winner:
+            errors.append(
+                f"recommended_option must be exactly '{winner}', the alternative that ranks "
+                f"first under the {RECOMMENDATION_SCENARIO} weights"
+            )
+        return errors
+
+    return client.complete_json(
+        "memo",
+        {
+            "facts": facts,
+            "example": (PROMPT_DIR / "examples" / "memo.json").read_text(encoding="utf-8"),
+        },
+        DecisionMemo,
         use_cache=use_cache,
         temperature=temperature,
         check=check,

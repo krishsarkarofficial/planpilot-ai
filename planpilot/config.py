@@ -95,6 +95,13 @@ PROGRESS_DEFAULTS: dict[str, dict[str, float]] = {
 # add_resource efficiency (coordination overhead, cf. Brooks's law).
 DEFAULT_EFFICIENCY = 0.6
 
+# Decision criteria weights per scenario (keys match engine.decision.CRITERIA); each sums to 1.
+WEIGHT_SCENARIOS: dict[str, dict[str, float]] = {
+    "balanced": {"p80": 0.35, "prob_on_time": 0.30, "cost": 0.25, "spread": 0.10},
+    "schedule-first": {"p80": 0.45, "prob_on_time": 0.35, "cost": 0.10, "spread": 0.10},
+    "cost-first": {"p80": 0.20, "prob_on_time": 0.20, "cost": 0.50, "spread": 0.10},
+}
+
 # LLM providers (OpenAI-compatible). Groq first; Gemini once Groq's daily quota is used up.
 PROVIDERS: dict[str, dict[str, str]] = {
     "groq": {

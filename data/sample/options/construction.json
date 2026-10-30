@@ -1,0 +1,41 @@
+[
+  {
+    "name": "Add two masons",
+    "description": "A second mason crew for demolition, partitions, flooring and painting. Faster, with some coordination overhead (efficiency 0.6).",
+    "changes": [
+      {
+        "type": "add_resource",
+        "role": "mason",
+        "added_people": 2
+      }
+    ]
+  },
+  {
+    "name": "Defer the false ceiling and LED lighting",
+    "description": "Leave the false ceiling and LED lighting for a later phase.",
+    "changes": [
+      {
+        "type": "cut_scope",
+        "task_ids": [
+          "T13"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Fast-track permit and pre-inspection",
+    "description": "Hire a liaison for the building permit and book a pre-inspection before the fire inspection.",
+    "changes": [
+      {
+        "type": "mitigate_risk",
+        "risk_ids": [
+          "R01",
+          "R08",
+          "R02"
+        ],
+        "probability_multiplier": 0.4,
+        "cost": 45000
+      }
+    ]
+  }
+]

@@ -122,12 +122,16 @@ def _numbers(text: str) -> list[str]:
     return NUMBER_PATTERN.findall(text)
 
 
-def unknown_figures(report: StatusReport, facts: str) -> list[str]:
-    """Numbers in the report that are not in the fact sheet (a rounded fact is allowed)."""
+def unknown_numbers(text: str, facts: str) -> list[str]:
+    """Numbers in `text` that are not in the fact sheet (a rounded fact is allowed)."""
     allowed = [float(x) for x in _numbers(facts)]
     unknown = []
-    for x in _numbers(report_text(report)):
+    for x in _numbers(text):
         decimals = len(x.split(".")[1]) if "." in x else 0
         if not any(round(a, decimals) == float(x) for a in allowed):
             unknown.append(x)
     return sorted(set(unknown), key=float)
+
+
+def unknown_figures(report: StatusReport, facts: str) -> list[str]:
+    return unknown_numbers(report_text(report), facts)
