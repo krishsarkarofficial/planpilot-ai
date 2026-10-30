@@ -135,7 +135,9 @@ Task and risk counts are stable. The critical-path length is not: the same brief
 whose length differs by up to 23 working days. Treat a generated plan as a draft to review.
 
 **Rubric.** [docs/rubric.md](docs/rubric.md) scores one generated plan per environment on eight
-criteria (0-2). It is a single-rater judgement.
+criteria (0-2). The rater was an LLM (Claude), not a human, and it helped build the tool, so read
+the scores (13 of 16 for each plan) with their written evidence, not as a measurement. The main gaps
+it found are short estimates and a few wrong dependencies.
 
 **Decision module on the demo projects** (10,000 runs, seed 42). The recommendation is the winner
 under balanced weights; the winner can change with the weights:

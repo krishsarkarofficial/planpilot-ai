@@ -103,8 +103,25 @@ mitigation option), so read the raw values above rather than the scores alone.
 The event result comes from a cut-scope option whose value is not modelled, so it looks cheap and
 fast by construction. A person would need to decide whether the robotics arena is dispensable.
 
-**Table 4. Plan quality rubric** (single rater, 0-2 per criterion): to be filled from
-`docs/rubric.md` once scored. Do not present it as a measurement.
+**Table 4. Plan quality rubric** (0-2 per criterion, max 16; one generated plan per environment;
+evidence for every score is in `docs/rubric.md`). The rater was an LLM (Claude), not a human, and it
+helped build the tool; the rating was not blind. Present it as a documented first-pass judgement.
+
+| Criterion | Software | Event | Construction |
+|---|---|---|---|
+| Scope coverage | 2 | 1 | 2 |
+| Dependency logic | 1 | 1 | 1 |
+| Estimate plausibility | 1 | 1 | 1 |
+| Parallelism | 2 | 2 | 2 |
+| Risk specificity | 1 | 2 | 2 |
+| Risk-category coverage | 2 | 2 | 2 |
+| Response actionability | 2 | 2 | 2 |
+| Role fit | 2 | 2 | 1 |
+| **Total** | **13** | **13** | **13** |
+
+The recurring gaps are short estimates (for example a building permit in 5 working days) and a few
+wrong dependencies (for example a site survey after the permit). Identical totals may reflect the
+coarse 0-2 scale as much as the plans.
 
 ## Stating the limits in the report
 
@@ -113,3 +130,4 @@ fast by construction. A person would need to decide whether the robotics arena i
   model, and the value of cut scope is not modelled.
 - The demo projects and progress data are synthetic.
 - Estimates come from the LLM and vary between runs (Table 1).
+- The rubric was scored by an LLM, not a human (Table 4).
