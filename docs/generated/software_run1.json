@@ -1,0 +1,414 @@
+{
+  "name": "Placement Portal",
+  "environment": "software",
+  "brief": "Build a web portal for the college Training and Placement Office (TPO). Students maintain profiles and resumes, companies post drives and jobs, students apply, and the TPO tracks applications, shortlists and offers with an admin dashboard and reports. Email notifications for new drives and status changes. Past placement records from spreadsheets must be migrated. Team of eight; target go-live by mid-January for the placement season, about eleven weeks.",
+  "start_date": "2026-11-02",
+  "deadline": "2027-01-19",
+  "team": {
+    "pm": 1,
+    "analyst": 1,
+    "designer": 1,
+    "developer": 3,
+    "tester": 1,
+    "devops": 1
+  },
+  "tasks": [
+    {
+      "id": "T01",
+      "name": "Project kickoff meeting",
+      "phase": "Initiation",
+      "role": "pm",
+      "optimistic": 1.0,
+      "most_likely": 1.0,
+      "pessimistic": 2.0,
+      "depends_on": []
+    },
+    {
+      "id": "T02",
+      "name": "Gather requirements from stakeholders",
+      "phase": "Initiation",
+      "role": "analyst",
+      "optimistic": 3.0,
+      "most_likely": 4.0,
+      "pessimistic": 6.0,
+      "depends_on": []
+    },
+    {
+      "id": "T03",
+      "name": "Define functional specifications",
+      "phase": "Planning",
+      "role": "analyst",
+      "optimistic": 2.0,
+      "most_likely": 3.0,
+      "pessimistic": 5.0,
+      "depends_on": [
+        "T02"
+      ]
+    },
+    {
+      "id": "T04",
+      "name": "Create project plan and schedule",
+      "phase": "Planning",
+      "role": "pm",
+      "optimistic": 2.0,
+      "most_likely": 3.0,
+      "pessimistic": 4.0,
+      "depends_on": [
+        "T01"
+      ]
+    },
+    {
+      "id": "T05",
+      "name": "Design UI wireframes",
+      "phase": "Design",
+      "role": "designer",
+      "optimistic": 3.0,
+      "most_likely": 4.0,
+      "pessimistic": 6.0,
+      "depends_on": [
+        "T03"
+      ]
+    },
+    {
+      "id": "T06",
+      "name": "Design database schema",
+      "phase": "Design",
+      "role": "developer",
+      "optimistic": 2.0,
+      "most_likely": 3.0,
+      "pessimistic": 5.0,
+      "depends_on": [
+        "T03"
+      ]
+    },
+    {
+      "id": "T07",
+      "name": "Review design with TPO",
+      "phase": "Design",
+      "role": "analyst",
+      "optimistic": 1.0,
+      "most_likely": 2.0,
+      "pessimistic": 3.0,
+      "depends_on": [
+        "T05",
+        "T06"
+      ]
+    },
+    {
+      "id": "T08",
+      "name": "Set up development environment and CI/CD pipeline",
+      "phase": "Development",
+      "role": "devops",
+      "optimistic": 2.0,
+      "most_likely": 3.0,
+      "pessimistic": 4.0,
+      "depends_on": [
+        "T04"
+      ]
+    },
+    {
+      "id": "T09",
+      "name": "Implement user authentication and profile module",
+      "phase": "Development",
+      "role": "developer",
+      "optimistic": 4.0,
+      "most_likely": 5.0,
+      "pessimistic": 7.0,
+      "depends_on": [
+        "T06",
+        "T08"
+      ]
+    },
+    {
+      "id": "T10",
+      "name": "Implement company portal and drive posting",
+      "phase": "Development",
+      "role": "developer",
+      "optimistic": 4.0,
+      "most_likely": 5.0,
+      "pessimistic": 7.0,
+      "depends_on": [
+        "T06",
+        "T08"
+      ]
+    },
+    {
+      "id": "T11",
+      "name": "Implement application workflow (apply, shortlist, offer)",
+      "phase": "Development",
+      "role": "developer",
+      "optimistic": 5.0,
+      "most_likely": 6.0,
+      "pessimistic": 9.0,
+      "depends_on": [
+        "T09",
+        "T10"
+      ]
+    },
+    {
+      "id": "T12",
+      "name": "Migrate past placement records",
+      "phase": "Development",
+      "role": "developer",
+      "optimistic": 3.0,
+      "most_likely": 4.0,
+      "pessimistic": 6.0,
+      "depends_on": [
+        "T04"
+      ]
+    },
+    {
+      "id": "T13",
+      "name": "Design email notification templates",
+      "phase": "Design",
+      "role": "designer",
+      "optimistic": 2.0,
+      "most_likely": 3.0,
+      "pessimistic": 4.0,
+      "depends_on": [
+        "T07"
+      ]
+    },
+    {
+      "id": "T14",
+      "name": "Implement email notifications",
+      "phase": "Development",
+      "role": "developer",
+      "optimistic": 3.0,
+      "most_likely": 4.0,
+      "pessimistic": 6.0,
+      "depends_on": [
+        "T11",
+        "T13"
+      ]
+    },
+    {
+      "id": "T15",
+      "name": "Build admin dashboard and reports",
+      "phase": "Development",
+      "role": "developer",
+      "optimistic": 5.0,
+      "most_likely": 6.0,
+      "pessimistic": 8.0,
+      "depends_on": [
+        "T07",
+        "T12"
+      ]
+    },
+    {
+      "id": "T16",
+      "name": "System integration testing",
+      "phase": "Testing",
+      "role": "tester",
+      "optimistic": 3.0,
+      "most_likely": 4.0,
+      "pessimistic": 6.0,
+      "depends_on": [
+        "T14",
+        "T15",
+        "T11"
+      ]
+    },
+    {
+      "id": "T17",
+      "name": "User acceptance testing with TPO",
+      "phase": "Testing",
+      "role": "tester",
+      "optimistic": 2.0,
+      "most_likely": 3.0,
+      "pessimistic": 5.0,
+      "depends_on": [
+        "T16"
+      ]
+    },
+    {
+      "id": "T18",
+      "name": "Production deployment and go-live",
+      "phase": "Deployment",
+      "role": "devops",
+      "optimistic": 2.0,
+      "most_likely": 2.0,
+      "pessimistic": 3.0,
+      "depends_on": [
+        "T17"
+      ]
+    },
+    {
+      "id": "T19",
+      "name": "Post-deployment monitoring and support",
+      "phase": "Deployment",
+      "role": "devops",
+      "optimistic": 2.0,
+      "most_likely": 3.0,
+      "pessimistic": 4.0,
+      "depends_on": [
+        "T18"
+      ]
+    }
+  ],
+  "risks": [
+    {
+      "id": "R01",
+      "title": "Authentication security gap",
+      "category": "technical",
+      "cause": "Developer designs authentication without threat modeling",
+      "event": "Security test reveals credential bypass vulnerability",
+      "effect": "Module must be redesigned and retested, delaying related development",
+      "probability": 0.28,
+      "impact_days": 5.0,
+      "affected_task_ids": [
+        "T09",
+        "T14"
+      ],
+      "owner_role": "developer",
+      "response_strategy": "mitigate",
+      "response": "Conduct a threat model workshop before T09 and allocate time for security review"
+    },
+    {
+      "id": "R02",
+      "title": "Design‑development timing clash",
+      "category": "schedule",
+      "cause": "UI wireframes are not signed off before developers start coding",
+      "event": "Developers discover missing screens mid‑implementation",
+      "effect": "Rework of front‑end components pushes back multiple development tasks",
+      "probability": 0.35,
+      "impact_days": 4.0,
+      "affected_task_ids": [
+        "T05",
+        "T09",
+        "T10"
+      ],
+      "owner_role": "pm",
+      "response_strategy": "mitigate",
+      "response": "Lock wireframe approval date and enforce a no‑start rule for T09‑T11 until T05 is complete"
+    },
+    {
+      "id": "R03",
+      "title": "Single‑person developer bottleneck",
+      "category": "resource",
+      "cause": "Only one developer is assigned to core portal features",
+      "event": "Developer is unavailable for several days due to illness",
+      "effect": "All core development tasks slip, extending the schedule",
+      "probability": 0.22,
+      "impact_days": 6.0,
+      "affected_task_ids": [
+        "T09",
+        "T10",
+        "T11",
+        "T12",
+        "T14",
+        "T15"
+      ],
+      "owner_role": "pm",
+      "response_strategy": "mitigate",
+      "response": "Cross‑train a second developer on the core modules and keep a buffer in the plan"
+    },
+    {
+      "id": "R04",
+      "title": "Stakeholder‑driven scope creep",
+      "category": "scope",
+      "cause": "TPO requests additional interview‑scheduling feature after specs are signed",
+      "event": "New feature is added to the functional specification",
+      "effect": "Extra development and testing effort pushes go‑live date later",
+      "probability": 0.18,
+      "impact_days": 5.0,
+      "affected_task_ids": [
+        "T11",
+        "T15",
+        "T16",
+        "T17"
+      ],
+      "owner_role": "analyst",
+      "response_strategy": "avoid",
+      "response": "Formal change‑control process with impact assessment before any new requirement is approved"
+    },
+    {
+      "id": "R05",
+      "title": "Late production server access",
+      "category": "external",
+      "cause": "College IT team processes server provisioning requests slowly",
+      "event": "DevOps cannot obtain production environment credentials on schedule",
+      "effect": "Deployment and post‑deployment monitoring are delayed",
+      "probability": 0.25,
+      "impact_days": 3.0,
+      "affected_task_ids": [
+        "T18",
+        "T19"
+      ],
+      "owner_role": "devops",
+      "response_strategy": "mitigate",
+      "response": "Submit access request in week 1 and arrange a temporary cloud environment as fallback"
+    },
+    {
+      "id": "R06",
+      "title": "Email template quality issues",
+      "category": "quality",
+      "cause": "Email notification templates are created without functional testing",
+      "event": "Emails are sent with broken placeholders during UAT",
+      "effect": "Fixes and retesting add days to the testing phase",
+      "probability": 0.3,
+      "impact_days": 2.0,
+      "affected_task_ids": [
+        "T14",
+        "T16",
+        "T17"
+      ],
+      "owner_role": "tester",
+      "response_strategy": "mitigate",
+      "response": "Create test cases for all email templates and run them in a staging environment before T14 is completed"
+    },
+    {
+      "id": "R07",
+      "title": "Data migration character errors",
+      "category": "technical",
+      "cause": "Migration script does not handle special characters in legacy spreadsheets",
+      "event": "Past placement records become corrupted after import",
+      "effect": "Data cleanup effort delays admin dashboard readiness",
+      "probability": 0.15,
+      "impact_days": 4.0,
+      "affected_task_ids": [
+        "T12",
+        "T15"
+      ],
+      "owner_role": "developer",
+      "response_strategy": "mitigate",
+      "response": "Run a pilot migration on a sample set, validate all fields, and add character‑escaping logic"
+    },
+    {
+      "id": "R08",
+      "title": "CI/CD pipeline not ready",
+      "category": "schedule",
+      "cause": "DevOps work on pipeline overlaps with start of core development",
+      "event": "Developers cannot push code to shared repo because pipeline is incomplete",
+      "effect": "Development tasks are blocked, extending their durations",
+      "probability": 0.2,
+      "impact_days": 3.0,
+      "affected_task_ids": [
+        "T09",
+        "T10",
+        "T11"
+      ],
+      "owner_role": "devops",
+      "response_strategy": "avoid",
+      "response": "Complete T08 before T09 starts and lock the pipeline as a gate for code commits"
+    },
+    {
+      "id": "R09",
+      "title": "Designer workload overload",
+      "category": "resource",
+      "cause": "Same designer is tasked with UI wireframes and email template design",
+      "event": "Design deliverables miss their planned dates",
+      "effect": "Delayed hand‑off to developers for both UI and email modules",
+      "probability": 0.18,
+      "impact_days": 3.0,
+      "affected_task_ids": [
+        "T05",
+        "T13",
+        "T14"
+      ],
+      "owner_role": "designer",
+      "response_strategy": "mitigate",
+      "response": "Allocate a second designer for email templates or stagger the design tasks to avoid overlap"
+    }
+  ]
+}

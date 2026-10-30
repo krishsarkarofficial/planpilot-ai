@@ -1,0 +1,415 @@
+{
+  "name": "Chem Lab Renovation",
+  "environment": "construction",
+  "brief": "Renovate the second-floor chemistry teaching lab during the winter term. Strip the old fittings, remove two partition walls, rewire the lab with new power and data points, add plumbing for wet-lab sinks, install fume-hood ducting and fire safety, lay anti-static vinyl flooring, fit a false ceiling with LED lighting, and install new benches and storage. Needs a building permit and a fire inspection before handover. In-house works team plus contracted trades; the department wants the lab back for the new term, about fourteen weeks.",
+  "start_date": "2026-11-02",
+  "deadline": "2027-02-08",
+  "team": {
+    "site_engineer": 1,
+    "architect": 1,
+    "supervisor": 1,
+    "mason": 3,
+    "electrician": 2,
+    "plumber": 1,
+    "carpenter": 2
+  },
+  "tasks": [
+    {
+      "id": "T01",
+      "name": "Prepare renovation design drawings",
+      "phase": "Planning",
+      "role": "architect",
+      "optimistic": 3.0,
+      "most_likely": 5.0,
+      "pessimistic": 7.0,
+      "depends_on": []
+    },
+    {
+      "id": "T02",
+      "name": "Submit building permit application",
+      "phase": "Planning",
+      "role": "site_engineer",
+      "optimistic": 2.0,
+      "most_likely": 3.0,
+      "pessimistic": 5.0,
+      "depends_on": [
+        "T01"
+      ]
+    },
+    {
+      "id": "T03",
+      "name": "Obtain permit approval",
+      "phase": "Planning",
+      "role": "site_engineer",
+      "optimistic": 5.0,
+      "most_likely": 7.0,
+      "pessimistic": 10.0,
+      "depends_on": [
+        "T02"
+      ]
+    },
+    {
+      "id": "T04",
+      "name": "Develop detailed construction schedule",
+      "phase": "Planning",
+      "role": "supervisor",
+      "optimistic": 2.0,
+      "most_likely": 3.0,
+      "pessimistic": 4.0,
+      "depends_on": [
+        "T01",
+        "T03"
+      ]
+    },
+    {
+      "id": "T05",
+      "name": "Strip old lab fittings and equipment",
+      "phase": "Demolition & Structural",
+      "role": "carpenter",
+      "optimistic": 2.0,
+      "most_likely": 3.0,
+      "pessimistic": 4.0,
+      "depends_on": [
+        "T04"
+      ]
+    },
+    {
+      "id": "T06",
+      "name": "Remove two partition walls",
+      "phase": "Demolition & Structural",
+      "role": "mason",
+      "optimistic": 3.0,
+      "most_likely": 4.0,
+      "pessimistic": 6.0,
+      "depends_on": [
+        "T05"
+      ]
+    },
+    {
+      "id": "T07",
+      "name": "Repair and reinforce remaining walls/ceilings",
+      "phase": "Demolition & Structural",
+      "role": "mason",
+      "optimistic": 4.0,
+      "most_likely": 6.0,
+      "pessimistic": 9.0,
+      "depends_on": [
+        "T06"
+      ]
+    },
+    {
+      "id": "T08",
+      "name": "Install new power wiring and data points",
+      "phase": "Services Installation",
+      "role": "electrician",
+      "optimistic": 4.0,
+      "most_likely": 6.0,
+      "pessimistic": 9.0,
+      "depends_on": [
+        "T07"
+      ]
+    },
+    {
+      "id": "T09",
+      "name": "Install plumbing for wet‑lab sinks",
+      "phase": "Services Installation",
+      "role": "plumber",
+      "optimistic": 4.0,
+      "most_likely": 5.0,
+      "pessimistic": 7.0,
+      "depends_on": [
+        "T07"
+      ]
+    },
+    {
+      "id": "T10",
+      "name": "Install fume‑hood ducting and fire safety systems",
+      "phase": "Services Installation",
+      "role": "electrician",
+      "optimistic": 5.0,
+      "most_likely": 7.0,
+      "pessimistic": 10.0,
+      "depends_on": [
+        "T07"
+      ]
+    },
+    {
+      "id": "T11",
+      "name": "Install false ceiling framework",
+      "phase": "Services Installation",
+      "role": "carpenter",
+      "optimistic": 3.0,
+      "most_likely": 5.0,
+      "pessimistic": 7.0,
+      "depends_on": [
+        "T07"
+      ]
+    },
+    {
+      "id": "T12",
+      "name": "Lay anti‑static vinyl flooring",
+      "phase": "Finishes",
+      "role": "carpenter",
+      "optimistic": 3.0,
+      "most_likely": 4.0,
+      "pessimistic": 6.0,
+      "depends_on": [
+        "T11"
+      ]
+    },
+    {
+      "id": "T13",
+      "name": "Install LED lighting fixtures",
+      "phase": "Finishes",
+      "role": "electrician",
+      "optimistic": 2.0,
+      "most_likely": 3.0,
+      "pessimistic": 5.0,
+      "depends_on": [
+        "T08",
+        "T11"
+      ]
+    },
+    {
+      "id": "T14",
+      "name": "Install lab benches and storage cabinets",
+      "phase": "Finishes",
+      "role": "carpenter",
+      "optimistic": 3.0,
+      "most_likely": 5.0,
+      "pessimistic": 7.0,
+      "depends_on": [
+        "T12",
+        "T09",
+        "T10"
+      ]
+    },
+    {
+      "id": "T15",
+      "name": "Final interior touch‑ups and snag fixing",
+      "phase": "Finishes",
+      "role": "mason",
+      "optimistic": 2.0,
+      "most_likely": 3.0,
+      "pessimistic": 5.0,
+      "depends_on": [
+        "T13",
+        "T14"
+      ]
+    },
+    {
+      "id": "T16",
+      "name": "Conduct fire safety inspection",
+      "phase": "Inspection & Handover",
+      "role": "supervisor",
+      "optimistic": 1.0,
+      "most_likely": 2.0,
+      "pessimistic": 3.0,
+      "depends_on": [
+        "T10",
+        "T15"
+      ]
+    },
+    {
+      "id": "T17",
+      "name": "Conduct final snag inspection",
+      "phase": "Inspection & Handover",
+      "role": "supervisor",
+      "optimistic": 1.0,
+      "most_likely": 2.0,
+      "pessimistic": 3.0,
+      "depends_on": [
+        "T15",
+        "T16"
+      ]
+    },
+    {
+      "id": "T18",
+      "name": "Handover to department",
+      "phase": "Inspection & Handover",
+      "role": "site_engineer",
+      "optimistic": 1.0,
+      "most_likely": 1.0,
+      "pessimistic": 2.0,
+      "depends_on": [
+        "T17"
+      ]
+    }
+  ],
+  "risks": [
+    {
+      "id": "R01",
+      "title": "Permit approval delay",
+      "category": "external",
+      "cause": "Building authority backlog during winter term",
+      "event": "Permit not approved by scheduled date",
+      "effect": "Start of demolition and construction schedule slips",
+      "probability": 0.35,
+      "impact_days": 5.0,
+      "affected_task_ids": [
+        "T02",
+        "T03"
+      ],
+      "owner_role": "site_engineer",
+      "response_strategy": "mitigate",
+      "response": "Submit application early, follow up weekly with authority, and prepare a contingency plan for alternative start dates"
+    },
+    {
+      "id": "R02",
+      "title": "Design drawing errors",
+      "category": "technical",
+      "cause": "Architect misinterprets lab workflow requirements",
+      "event": "Design requires revision after schedule is drafted",
+      "effect": "Delay in finalizing detailed construction schedule",
+      "probability": 0.25,
+      "impact_days": 3.0,
+      "affected_task_ids": [
+        "T01",
+        "T04"
+      ],
+      "owner_role": "architect",
+      "response_strategy": "avoid",
+      "response": "Conduct a design review workshop with lab staff and supervisor before final sign‑off"
+    },
+    {
+      "id": "R03",
+      "title": "Asbestos discovered in partition walls",
+      "category": "technical",
+      "cause": "Legacy asbestos insulation in original walls",
+      "event": "Asbestos found during demolition of partitions",
+      "effect": "Specialist removal needed, delaying wall removal and reinforcement",
+      "probability": 0.2,
+      "impact_days": 7.0,
+      "affected_task_ids": [
+        "T06",
+        "T07"
+      ],
+      "owner_role": "supervisor",
+      "response_strategy": "mitigate",
+      "response": "Commission an asbestos survey before demolition and have a licensed removal contractor on standby"
+    },
+    {
+      "id": "R04",
+      "title": "Electrical material delivery late",
+      "category": "external",
+      "cause": "Sole supplier faces stock shortages",
+      "event": "Conduits and panels arrive one week late",
+      "effect": "Rewiring and fume‑hood ducting start later, pushing back related tasks",
+      "probability": 0.3,
+      "impact_days": 4.0,
+      "affected_task_ids": [
+        "T08",
+        "T10",
+        "T13"
+      ],
+      "owner_role": "electrician",
+      "response_strategy": "transfer",
+      "response": "Include penalty clauses in supply contract and identify an alternate supplier as backup"
+    },
+    {
+      "id": "R05",
+      "title": "Anti‑static vinyl flooring shortage",
+      "category": "external",
+      "cause": "Vendor backorder on specialized flooring rolls",
+      "event": "Flooring material not delivered on time",
+      "effect": "Floor laying delayed, which holds up bench installation",
+      "probability": 0.25,
+      "impact_days": 5.0,
+      "affected_task_ids": [
+        "T12",
+        "T14"
+      ],
+      "owner_role": "carpenter",
+      "response_strategy": "mitigate",
+      "response": "Order extra stock and confirm lead times with supplier; keep a short‑term local alternative on standby"
+    },
+    {
+      "id": "R06",
+      "title": "Carpenter labour shortage",
+      "category": "resource",
+      "cause": "High demand for carpenters during winter term projects",
+      "event": "Carpenter crew unavailable for three consecutive days",
+      "effect": "Delays to stripping, ceiling framework, flooring and bench installation",
+      "probability": 0.4,
+      "impact_days": 4.0,
+      "affected_task_ids": [
+        "T05",
+        "T11",
+        "T12",
+        "T14"
+      ],
+      "owner_role": "carpenter",
+      "response_strategy": "mitigate",
+      "response": "Secure a backup subcontractor crew and cross‑train masons on basic carpentry tasks"
+    },
+    {
+      "id": "R07",
+      "title": "Fire safety inspection non‑compliance",
+      "category": "quality",
+      "cause": "Fire suppression system not fully integrated with new ducting",
+      "event": "Official fire inspector issues a non‑compliance notice",
+      "effect": "Rework of fire safety systems and delayed handover",
+      "probability": 0.2,
+      "impact_days": 6.0,
+      "affected_task_ids": [
+        "T16",
+        "T18"
+      ],
+      "owner_role": "supervisor",
+      "response_strategy": "mitigate",
+      "response": "Perform an internal pre‑inspection checklist and mock test the system before the official inspection"
+    },
+    {
+      "id": "R08",
+      "title": "Scope creep – extra bench request",
+      "category": "scope",
+      "cause": "Department adds request for an additional bench after demolition begins",
+      "event": "New bench design and procurement added to scope",
+      "effect": "Extra installation time pushes back bench fitting and overall handover",
+      "probability": 0.15,
+      "impact_days": 3.0,
+      "affected_task_ids": [
+        "T14",
+        "T18"
+      ],
+      "owner_role": "supervisor",
+      "response_strategy": "mitigate",
+      "response": "Use a formal change‑order process and include a schedule buffer for ad‑hoc requests"
+    },
+    {
+      "id": "R09",
+      "title": "Flooring adhesive cure delay due to humidity",
+      "category": "schedule",
+      "cause": "Winter indoor humidity exceeds adhesive specifications",
+      "event": "Adhesive does not reach required strength in expected time",
+      "effect": "Floor cannot be walked on, delaying bench installation",
+      "probability": 0.3,
+      "impact_days": 2.0,
+      "affected_task_ids": [
+        "T12",
+        "T14"
+      ],
+      "owner_role": "carpenter",
+      "response_strategy": "mitigate",
+      "response": "Select low‑temperature curing adhesive and monitor humidity, using dehumidifiers if needed"
+    },
+    {
+      "id": "R10",
+      "title": "Trade clash between electrical and plumbing routes",
+      "category": "quality",
+      "cause": "Conduit and pipe routes intersect in the false ceiling space",
+      "event": "Clash detected during installation of services",
+      "effect": "Re‑routing required, adding delay to wiring, plumbing and ceiling work",
+      "probability": 0.35,
+      "impact_days": 3.0,
+      "affected_task_ids": [
+        "T08",
+        "T09",
+        "T11"
+      ],
+      "owner_role": "supervisor",
+      "response_strategy": "mitigate",
+      "response": "Hold weekly clash detection meetings using BIM models and adjust routing before physical installation"
+    }
+  ]
+}

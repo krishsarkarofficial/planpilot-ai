@@ -1,0 +1,461 @@
+{
+  "name": "TechNova Fest",
+  "environment": "event",
+  "brief": "Organise TechNova, a two-day college tech fest for about 1,500 students. It has a 24-hour hackathon, a robotics competition, three workshops and an evening concert. We need sponsors, venue and permissions, social media marketing, online registrations, stage, sound and lighting, food stalls, volunteers and security, and post-event accounts. Organising team of about eleven students; the fest should happen before the end-semester break, about nine weeks out.",
+  "start_date": "2026-11-02",
+  "deadline": "2027-01-05",
+  "team": {
+    "coordinator": 1,
+    "logistics": 2,
+    "marketing": 2,
+    "designer": 1,
+    "tech_crew": 2,
+    "finance": 1,
+    "volunteer_lead": 2
+  },
+  "tasks": [
+    {
+      "id": "T01",
+      "name": "Define scope and objectives",
+      "phase": "Initiation",
+      "role": "coordinator",
+      "optimistic": 2.0,
+      "most_likely": 3.0,
+      "pessimistic": 4.0,
+      "depends_on": []
+    },
+    {
+      "id": "T02",
+      "name": "Form core team and assign roles",
+      "phase": "Initiation",
+      "role": "coordinator",
+      "optimistic": 2.0,
+      "most_likely": 3.0,
+      "pessimistic": 5.0,
+      "depends_on": [
+        "T01"
+      ]
+    },
+    {
+      "id": "T03",
+      "name": "Secure venue and obtain permissions",
+      "phase": "Planning",
+      "role": "logistics",
+      "optimistic": 5.0,
+      "most_likely": 7.0,
+      "pessimistic": 10.0,
+      "depends_on": [
+        "T01"
+      ]
+    },
+    {
+      "id": "T04",
+      "name": "Draft budget and sponsorship package",
+      "phase": "Planning",
+      "role": "finance",
+      "optimistic": 3.0,
+      "most_likely": 4.0,
+      "pessimistic": 6.0,
+      "depends_on": [
+        "T02"
+      ]
+    },
+    {
+      "id": "T05",
+      "name": "Create marketing strategy and timeline",
+      "phase": "Planning",
+      "role": "marketing",
+      "optimistic": 4.0,
+      "most_likely": 5.0,
+      "pessimistic": 7.0,
+      "depends_on": [
+        "T02"
+      ]
+    },
+    {
+      "id": "T06",
+      "name": "Pitch to potential sponsors",
+      "phase": "Promotion",
+      "role": "finance",
+      "optimistic": 5.0,
+      "most_likely": 7.0,
+      "pessimistic": 10.0,
+      "depends_on": [
+        "T04",
+        "T05"
+      ]
+    },
+    {
+      "id": "T07",
+      "name": "Finalize sponsorship agreements",
+      "phase": "Promotion",
+      "role": "finance",
+      "optimistic": 3.0,
+      "most_likely": 4.0,
+      "pessimistic": 6.0,
+      "depends_on": [
+        "T06"
+      ]
+    },
+    {
+      "id": "T08",
+      "name": "Design branding, posters and social assets",
+      "phase": "Promotion",
+      "role": "designer",
+      "optimistic": 3.0,
+      "most_likely": 4.0,
+      "pessimistic": 5.0,
+      "depends_on": [
+        "T05"
+      ]
+    },
+    {
+      "id": "T09",
+      "name": "Launch social media campaign and registration portal",
+      "phase": "Promotion",
+      "role": "marketing",
+      "optimistic": 5.0,
+      "most_likely": 7.0,
+      "pessimistic": 9.0,
+      "depends_on": [
+        "T08",
+        "T07"
+      ]
+    },
+    {
+      "id": "T10",
+      "name": "Arrange food stalls, security and volunteer recruitment",
+      "phase": "Logistics",
+      "role": "logistics",
+      "optimistic": 4.0,
+      "most_likely": 5.0,
+      "pessimistic": 7.0,
+      "depends_on": [
+        "T03"
+      ]
+    },
+    {
+      "id": "T11",
+      "name": "Book sound, lighting and stage equipment",
+      "phase": "Logistics",
+      "role": "tech_crew",
+      "optimistic": 3.0,
+      "most_likely": 4.0,
+      "pessimistic": 6.0,
+      "depends_on": [
+        "T03"
+      ]
+    },
+    {
+      "id": "T12",
+      "name": "Set up online registration system and payment processing",
+      "phase": "Logistics",
+      "role": "tech_crew",
+      "optimistic": 4.0,
+      "most_likely": 5.0,
+      "pessimistic": 7.0,
+      "depends_on": [
+        "T05"
+      ]
+    },
+    {
+      "id": "T13",
+      "name": "Train volunteers and assign shifts",
+      "phase": "Logistics",
+      "role": "volunteer_lead",
+      "optimistic": 3.0,
+      "most_likely": 4.0,
+      "pessimistic": 5.0,
+      "depends_on": [
+        "T10"
+      ]
+    },
+    {
+      "id": "T14",
+      "name": "Run 24‑hour Hackathon",
+      "phase": "Execution",
+      "role": "coordinator",
+      "optimistic": 5.0,
+      "most_likely": 7.0,
+      "pessimistic": 9.0,
+      "depends_on": [
+        "T09",
+        "T10",
+        "T11",
+        "T12",
+        "T13"
+      ]
+    },
+    {
+      "id": "T15",
+      "name": "Conduct Robotics competition",
+      "phase": "Execution",
+      "role": "coordinator",
+      "optimistic": 4.0,
+      "most_likely": 5.0,
+      "pessimistic": 7.0,
+      "depends_on": [
+        "T09",
+        "T10",
+        "T11",
+        "T12",
+        "T13"
+      ]
+    },
+    {
+      "id": "T16",
+      "name": "Host three technical workshops",
+      "phase": "Execution",
+      "role": "coordinator",
+      "optimistic": 4.0,
+      "most_likely": 5.0,
+      "pessimistic": 7.0,
+      "depends_on": [
+        "T09",
+        "T10",
+        "T11",
+        "T12",
+        "T13"
+      ]
+    },
+    {
+      "id": "T17",
+      "name": "Evening concert setup and execution",
+      "phase": "Execution",
+      "role": "logistics",
+      "optimistic": 3.0,
+      "most_likely": 4.0,
+      "pessimistic": 6.0,
+      "depends_on": [
+        "T14",
+        "T10",
+        "T11",
+        "T13"
+      ]
+    },
+    {
+      "id": "T18",
+      "name": "Gather participant feedback and compile event metrics",
+      "phase": "Closure",
+      "role": "coordinator",
+      "optimistic": 2.0,
+      "most_likely": 3.0,
+      "pessimistic": 4.0,
+      "depends_on": [
+        "T14",
+        "T15",
+        "T16",
+        "T17"
+      ]
+    },
+    {
+      "id": "T19",
+      "name": "Prepare final event report and documentation",
+      "phase": "Closure",
+      "role": "coordinator",
+      "optimistic": 2.0,
+      "most_likely": 3.0,
+      "pessimistic": 5.0,
+      "depends_on": [
+        "T18"
+      ]
+    },
+    {
+      "id": "T20",
+      "name": "Finalize financial accounts and archive records",
+      "phase": "Closure",
+      "role": "finance",
+      "optimistic": 3.0,
+      "most_likely": 4.0,
+      "pessimistic": 6.0,
+      "depends_on": [
+        "T19"
+      ]
+    }
+  ],
+  "risks": [
+    {
+      "id": "R01",
+      "title": "Venue permission delay",
+      "category": "external",
+      "cause": "College administration takes longer than expected to approve the venue request",
+      "event": "Approval for the main hall is not received by the planned date",
+      "effect": "Securing the venue is delayed, pushing back equipment booking and setup schedule",
+      "probability": 0.25,
+      "impact_days": 5.0,
+      "affected_task_ids": [
+        "T03",
+        "T11",
+        "T17"
+      ],
+      "owner_role": "logistics",
+      "response_strategy": "mitigate",
+      "response": "Submit the venue request with all required documents early and obtain a provisional written confirmation from the dean"
+    },
+    {
+      "id": "R02",
+      "title": "Insufficient sponsor funds",
+      "category": "resource",
+      "cause": "Key sponsors withdraw or reduce pledged amounts",
+      "event": "Expected sponsorship revenue falls short by 30%",
+      "effect": "Budget constraints force scaling back AV rentals and food stall arrangements",
+      "probability": 0.2,
+      "impact_days": 4.0,
+      "affected_task_ids": [
+        "T04",
+        "T06",
+        "T07",
+        "T11"
+      ],
+      "owner_role": "finance",
+      "response_strategy": "mitigate",
+      "response": "Identify backup sponsors and create a tiered sponsorship package to attract additional small sponsors"
+    },
+    {
+      "id": "R03",
+      "title": "Registration portal technical failure",
+      "category": "technical",
+      "cause": "The online registration system experiences a server crash during the sign‑up period",
+      "event": "Students cannot complete registration or payment",
+      "effect": "Late registrations cause reduced participant numbers and delay final headcount for logistics",
+      "probability": 0.15,
+      "impact_days": 6.0,
+      "affected_task_ids": [
+        "T12",
+        "T09",
+        "T14"
+      ],
+      "owner_role": "tech_crew",
+      "response_strategy": "mitigate",
+      "response": "Host the registration portal on a reliable cloud service with redundancy and conduct load testing before launch"
+    },
+    {
+      "id": "R04",
+      "title": "Low social media engagement",
+      "category": "quality",
+      "cause": "Marketing content does not resonate with the target student audience",
+      "event": "Social media campaign generates low reach and registrations",
+      "effect": "Participant numbers fall below target, affecting sponsor satisfaction and event atmosphere",
+      "probability": 0.3,
+      "impact_days": 3.0,
+      "affected_task_ids": [
+        "T05",
+        "T09",
+        "T14"
+      ],
+      "owner_role": "marketing",
+      "response_strategy": "mitigate",
+      "response": "Perform a pilot test of posts, use student influencers, and adjust messaging based on early analytics"
+    },
+    {
+      "id": "R05",
+      "title": "Volunteer shortage",
+      "category": "resource",
+      "cause": "Many recruited volunteers have exam schedules overlapping with event days",
+      "event": "Only 60% of required volunteers are available",
+      "effect": "Volunteer training and shift coverage take longer, risking gaps during event execution",
+      "probability": 0.35,
+      "impact_days": 4.0,
+      "affected_task_ids": [
+        "T10",
+        "T13",
+        "T14",
+        "T15",
+        "T16",
+        "T17"
+      ],
+      "owner_role": "volunteer_lead",
+      "response_strategy": "mitigate",
+      "response": "Recruit 30% more volunteers than needed and create a backup pool of standby students"
+    },
+    {
+      "id": "R06",
+      "title": "Equipment delivery delay",
+      "category": "external",
+      "cause": "AV supplier faces a transportation strike",
+      "event": "Sound, lighting and stage equipment arrive two days late",
+      "effect": "Setup time for concert and hackathon is compressed, increasing risk of technical glitches",
+      "probability": 0.1,
+      "impact_days": 3.0,
+      "affected_task_ids": [
+        "T11",
+        "T17",
+        "T14"
+      ],
+      "owner_role": "tech_crew",
+      "response_strategy": "transfer",
+      "response": "Include a penalty clause in the supplier contract and arrange a secondary local supplier as backup"
+    },
+    {
+      "id": "R07",
+      "title": "Scope creep – extra workshop added",
+      "category": "scope",
+      "cause": "Faculty proposes an additional high‑profile workshop after initial planning",
+      "event": "A fourth workshop is added without adjusting schedule",
+      "effect": "Venue and speaker bookings extend, pushing other tasks and increasing workload",
+      "probability": 0.2,
+      "impact_days": 5.0,
+      "affected_task_ids": [
+        "T05",
+        "T09",
+        "T14",
+        "T15",
+        "T16"
+      ],
+      "owner_role": "coordinator",
+      "response_strategy": "avoid",
+      "response": "Lock the workshop count in the project charter and require senior approval for any additions"
+    },
+    {
+      "id": "R08",
+      "title": "Rainy weather affecting concert",
+      "category": "external",
+      "cause": "Forecast predicts heavy rain on the evening of day 2",
+      "event": "Outdoor concert venue becomes unsuitable",
+      "effect": "Concert may need to be moved indoors, requiring rapid re‑booking of space and equipment",
+      "probability": 0.15,
+      "impact_days": 2.0,
+      "affected_task_ids": [
+        "T17",
+        "T11"
+      ],
+      "owner_role": "logistics",
+      "response_strategy": "mitigate",
+      "response": "Secure an indoor backup venue and have rain‑proof tents ready as contingency"
+    },
+    {
+      "id": "R09",
+      "title": "Loss of participant feedback data",
+      "category": "quality",
+      "cause": "Feedback forms are stored on a local laptop without backup",
+      "event": "Laptop crashes after the event",
+      "effect": "Collected feedback and metrics are lost, hindering post‑event reporting",
+      "probability": 0.1,
+      "impact_days": 2.0,
+      "affected_task_ids": [
+        "T18",
+        "T19"
+      ],
+      "owner_role": "coordinator",
+      "response_strategy": "mitigate",
+      "response": "Save feedback data to cloud storage in real time and back up daily"
+    },
+    {
+      "id": "R10",
+      "title": "Wi‑Fi security breach during hackathon",
+      "category": "technical",
+      "cause": "Weak Wi‑Fi network security allows unauthorized access",
+      "event": "External user interferes with participants' code submissions",
+      "effect": "Hackathon results are compromised and participants lose trust",
+      "probability": 0.08,
+      "impact_days": 3.0,
+      "affected_task_ids": [
+        "T14",
+        "T12"
+      ],
+      "owner_role": "tech_crew",
+      "response_strategy": "mitigate",
+      "response": "Implement WPA3 encryption, separate guest network, and monitor traffic with intrusion detection during the event"
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+environment,run,provider,tasks,phases,total_most_likely_days,cpm_days,risks,risk_categories,plan_warnings,error
+construction,1,groq,16,6,64,30,9,6,2,
+construction,2,groq,18,5,74,53,10,6,1,
+construction,3,groq,17,6,75,43,10,6,1,
+event,1,groq,18,6,70,30,9,6,1,
+event,2,groq,20,6,93,50,10,5,1,
+event,3,groq,19,4,74,31,10,6,1,
+software,1,groq,19,6,68,37,9,6,0,
+software,2,groq,18,5,70,46,10,6,1,
+software,3,groq,22,6,87,41,9,6,1,

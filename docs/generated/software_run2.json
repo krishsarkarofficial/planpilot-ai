@@ -1,0 +1,419 @@
+{
+  "name": "Placement Portal",
+  "environment": "software",
+  "brief": "Build a web portal for the college Training and Placement Office (TPO). Students maintain profiles and resumes, companies post drives and jobs, students apply, and the TPO tracks applications, shortlists and offers with an admin dashboard and reports. Email notifications for new drives and status changes. Past placement records from spreadsheets must be migrated. Team of eight; target go-live by mid-January for the placement season, about eleven weeks.",
+  "start_date": "2026-11-02",
+  "deadline": "2027-01-19",
+  "team": {
+    "pm": 1,
+    "analyst": 1,
+    "designer": 1,
+    "developer": 3,
+    "tester": 1,
+    "devops": 1
+  },
+  "tasks": [
+    {
+      "id": "T01",
+      "name": "Project kickoff meeting",
+      "phase": "Initiation",
+      "role": "pm",
+      "optimistic": 1.0,
+      "most_likely": 1.0,
+      "pessimistic": 2.0,
+      "depends_on": []
+    },
+    {
+      "id": "T02",
+      "name": "Stakeholder interviews and requirements gathering",
+      "phase": "Initiation",
+      "role": "analyst",
+      "optimistic": 3.0,
+      "most_likely": 4.0,
+      "pessimistic": 6.0,
+      "depends_on": [
+        "T01"
+      ]
+    },
+    {
+      "id": "T03",
+      "name": "Define functional specs and user stories",
+      "phase": "Planning",
+      "role": "analyst",
+      "optimistic": 4.0,
+      "most_likely": 5.0,
+      "pessimistic": 7.0,
+      "depends_on": [
+        "T02"
+      ]
+    },
+    {
+      "id": "T04",
+      "name": "Create project plan and sprint schedule",
+      "phase": "Planning",
+      "role": "pm",
+      "optimistic": 2.0,
+      "most_likely": 3.0,
+      "pessimistic": 5.0,
+      "depends_on": [
+        "T01",
+        "T03"
+      ]
+    },
+    {
+      "id": "T05",
+      "name": "UI/UX wireframes for student portal",
+      "phase": "Design",
+      "role": "designer",
+      "optimistic": 3.0,
+      "most_likely": 4.0,
+      "pessimistic": 6.0,
+      "depends_on": [
+        "T03"
+      ]
+    },
+    {
+      "id": "T06",
+      "name": "UI/UX wireframes for company portal and admin dashboard",
+      "phase": "Design",
+      "role": "designer",
+      "optimistic": 3.0,
+      "most_likely": 4.0,
+      "pessimistic": 6.0,
+      "depends_on": [
+        "T03"
+      ]
+    },
+    {
+      "id": "T07",
+      "name": "Database schema design",
+      "phase": "Design",
+      "role": "developer",
+      "optimistic": 2.0,
+      "most_likely": 3.0,
+      "pessimistic": 5.0,
+      "depends_on": [
+        "T03"
+      ]
+    },
+    {
+      "id": "T08",
+      "name": "API contract design",
+      "phase": "Design",
+      "role": "developer",
+      "optimistic": 2.0,
+      "most_likely": 3.0,
+      "pessimistic": 4.0,
+      "depends_on": [
+        "T07"
+      ]
+    },
+    {
+      "id": "T09",
+      "name": "Set up CI/CD pipeline and dev environment",
+      "phase": "Development",
+      "role": "devops",
+      "optimistic": 2.0,
+      "most_likely": 3.0,
+      "pessimistic": 4.0,
+      "depends_on": [
+        "T04"
+      ]
+    },
+    {
+      "id": "T10",
+      "name": "Implement authentication and user management",
+      "phase": "Development",
+      "role": "developer",
+      "optimistic": 4.0,
+      "most_likely": 5.0,
+      "pessimistic": 7.0,
+      "depends_on": [
+        "T07",
+        "T08",
+        "T09"
+      ]
+    },
+    {
+      "id": "T11",
+      "name": "Build student profile and resume module",
+      "phase": "Development",
+      "role": "developer",
+      "optimistic": 5.0,
+      "most_likely": 6.0,
+      "pessimistic": 9.0,
+      "depends_on": [
+        "T10"
+      ]
+    },
+    {
+      "id": "T12",
+      "name": "Build company drive posting module",
+      "phase": "Development",
+      "role": "developer",
+      "optimistic": 4.0,
+      "most_likely": 5.0,
+      "pessimistic": 8.0,
+      "depends_on": [
+        "T10"
+      ]
+    },
+    {
+      "id": "T13",
+      "name": "Implement application submission workflow",
+      "phase": "Development",
+      "role": "developer",
+      "optimistic": 5.0,
+      "most_likely": 6.0,
+      "pessimistic": 9.0,
+      "depends_on": [
+        "T11",
+        "T12"
+      ]
+    },
+    {
+      "id": "T14",
+      "name": "Email notification service",
+      "phase": "Development",
+      "role": "developer",
+      "optimistic": 2.0,
+      "most_likely": 3.0,
+      "pessimistic": 5.0,
+      "depends_on": [
+        "T13"
+      ]
+    },
+    {
+      "id": "T15",
+      "name": "Unit testing of modules",
+      "phase": "Testing & Deployment",
+      "role": "tester",
+      "optimistic": 3.0,
+      "most_likely": 4.0,
+      "pessimistic": 6.0,
+      "depends_on": [
+        "T11",
+        "T12",
+        "T13",
+        "T14",
+        "T05",
+        "T06"
+      ]
+    },
+    {
+      "id": "T16",
+      "name": "Integration testing",
+      "phase": "Testing & Deployment",
+      "role": "tester",
+      "optimistic": 3.0,
+      "most_likely": 4.0,
+      "pessimistic": 6.0,
+      "depends_on": [
+        "T15"
+      ]
+    },
+    {
+      "id": "T17",
+      "name": "Data migration from spreadsheets",
+      "phase": "Testing & Deployment",
+      "role": "developer",
+      "optimistic": 4.0,
+      "most_likely": 5.0,
+      "pessimistic": 7.0,
+      "depends_on": [
+        "T07",
+        "T09"
+      ]
+    },
+    {
+      "id": "T18",
+      "name": "Deploy to production and go-live",
+      "phase": "Testing & Deployment",
+      "role": "devops",
+      "optimistic": 1.0,
+      "most_likely": 2.0,
+      "pessimistic": 3.0,
+      "depends_on": [
+        "T16",
+        "T17"
+      ]
+    }
+  ],
+  "risks": [
+    {
+      "id": "R01",
+      "title": "Late addition of profile fields expands scope",
+      "category": "scope",
+      "cause": "Stakeholders request extra data fields for student profiles after functional specs are signed",
+      "event": "The project scope expands beyond the agreed baseline",
+      "effect": "Additional UI design and database changes delay development",
+      "probability": 0.4,
+      "impact_days": 5.0,
+      "affected_task_ids": [
+        "T03",
+        "T05",
+        "T06",
+        "T07",
+        "T08"
+      ],
+      "owner_role": "analyst",
+      "response_strategy": "mitigate",
+      "response": "Conduct a scope change review meeting and update specs with sign‑off before any design work begins"
+    },
+    {
+      "id": "R02",
+      "title": "Auth service integration with email provider fails",
+      "category": "technical",
+      "cause": "Authentication module is built to use SMTP credentials that are later changed by the email provider",
+      "event": "Integration tests reveal connection errors",
+      "effect": "Delay in implementing email notifications and user login",
+      "probability": 0.3,
+      "impact_days": 4.0,
+      "affected_task_ids": [
+        "T10",
+        "T14"
+      ],
+      "owner_role": "developer",
+      "response_strategy": "mitigate",
+      "response": "Use a sandbox email account for early testing and validate provider settings during T10 development"
+    },
+    {
+      "id": "R03",
+      "title": "Key developer unavailable during exam period",
+      "category": "resource",
+      "cause": "One of the two developers is a final‑year student with mandatory exams",
+      "event": "Developer cannot work on assigned tasks for two weeks",
+      "effect": "Development of profile, drive posting, and application workflow slips",
+      "probability": 0.35,
+      "impact_days": 6.0,
+      "affected_task_ids": [
+        "T11",
+        "T12",
+        "T13"
+      ],
+      "owner_role": "pm",
+      "response_strategy": "mitigate",
+      "response": "Cross‑train the second developer on these modules and adjust sprint backlog to reassign work"
+    },
+    {
+      "id": "R04",
+      "title": "College firewall blocks API endpoints",
+      "category": "external",
+      "cause": "Network security team requires new firewall rules for external API traffic",
+      "event": "CI/CD pipeline cannot reach the staging environment",
+      "effect": "Deployment and testing are postponed",
+      "probability": 0.25,
+      "impact_days": 3.0,
+      "affected_task_ids": [
+        "T09",
+        "T18"
+      ],
+      "owner_role": "devops",
+      "response_strategy": "mitigate",
+      "response": "Submit firewall rule request in week 1 and obtain provisional exception for test environment"
+    },
+    {
+      "id": "R05",
+      "title": "Limited test data causes integration bugs",
+      "category": "quality",
+      "cause": "Test data set only covers happy path scenarios",
+      "event": "Integration testing uncovers failures in edge cases",
+      "effect": "Additional bug fixing and retesting extend testing phase",
+      "probability": 0.45,
+      "impact_days": 4.0,
+      "affected_task_ids": [
+        "T15",
+        "T16"
+      ],
+      "owner_role": "tester",
+      "response_strategy": "mitigate",
+      "response": "Create comprehensive test data covering edge cases before T15 starts"
+    },
+    {
+      "id": "R06",
+      "title": "Inconsistent spreadsheet formats break migration",
+      "category": "technical",
+      "cause": "Historical placement records are stored in varied spreadsheet templates",
+      "event": "Automated migration scripts raise parsing errors",
+      "effect": "Data migration is delayed and requires manual cleanup",
+      "probability": 0.3,
+      "impact_days": 5.0,
+      "affected_task_ids": [
+        "T17"
+      ],
+      "owner_role": "developer",
+      "response_strategy": "mitigate",
+      "response": "Standardize source files and build validation scripts before migration begins"
+    },
+    {
+      "id": "R07",
+      "title": "Stakeholder interview delays push schedule",
+      "category": "schedule",
+      "cause": "Key TPO staff are unavailable for interviews in the first week",
+      "event": "Requirements gathering finishes later than planned",
+      "effect": "Functional specs and project plan are delayed, impacting design start",
+      "probability": 0.2,
+      "impact_days": 3.0,
+      "affected_task_ids": [
+        "T02",
+        "T03",
+        "T04"
+      ],
+      "owner_role": "analyst",
+      "response_strategy": "mitigate",
+      "response": "Schedule backup interview slots and use questionnaires to gather preliminary info"
+    },
+    {
+      "id": "R08",
+      "title": "Designer workload overload delays wireframes",
+      "category": "resource",
+      "cause": "Designer assigned to both student and company portal concurrently",
+      "event": "Wireframe delivery exceeds allocated 4 days each",
+      "effect": "Development tasks that depend on UI designs start late",
+      "probability": 0.25,
+      "impact_days": 4.0,
+      "affected_task_ids": [
+        "T05",
+        "T06"
+      ],
+      "owner_role": "designer",
+      "response_strategy": "mitigate",
+      "response": "Prioritize student portal wireframes first and consider hiring a freelance UI helper"
+    },
+    {
+      "id": "R09",
+      "title": "Additional reporting metrics added late",
+      "category": "scope",
+      "cause": "TPO requests new KPI dashboards after initial specs",
+      "event": "Design and API contracts need extra fields",
+      "effect": "Dashboard development and testing are extended",
+      "probability": 0.15,
+      "impact_days": 5.0,
+      "affected_task_ids": [
+        "T06",
+        "T08",
+        "T15"
+      ],
+      "owner_role": "pm",
+      "response_strategy": "avoid",
+      "response": "Lock reporting requirements in the functional specs sign‑off and treat any new metric as a change request"
+    },
+    {
+      "id": "R10",
+      "title": "Email provider outage during notification rollout",
+      "category": "external",
+      "cause": "Third‑party email service experiences downtime during go‑live week",
+      "event": "Notification service cannot send emails",
+      "effect": "Students miss drive announcements, leading to reputational impact",
+      "probability": 0.2,
+      "impact_days": 2.0,
+      "affected_task_ids": [
+        "T14",
+        "T16"
+      ],
+      "owner_role": "devops",
+      "response_strategy": "accept",
+      "response": "Implement retry logic and inform users to check portal for updates during provider outage"
+    }
+  ]
+}

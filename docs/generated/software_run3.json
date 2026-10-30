@@ -1,0 +1,458 @@
+{
+  "name": "Placement Portal",
+  "environment": "software",
+  "brief": "Build a web portal for the college Training and Placement Office (TPO). Students maintain profiles and resumes, companies post drives and jobs, students apply, and the TPO tracks applications, shortlists and offers with an admin dashboard and reports. Email notifications for new drives and status changes. Past placement records from spreadsheets must be migrated. Team of eight; target go-live by mid-January for the placement season, about eleven weeks.",
+  "start_date": "2026-11-02",
+  "deadline": "2027-01-19",
+  "team": {
+    "pm": 1,
+    "analyst": 1,
+    "designer": 1,
+    "developer": 3,
+    "tester": 1,
+    "devops": 1
+  },
+  "tasks": [
+    {
+      "id": "T01",
+      "name": "Project kickoff meeting",
+      "phase": "Initiation",
+      "role": "pm",
+      "optimistic": 1.0,
+      "most_likely": 1.0,
+      "pessimistic": 2.0,
+      "depends_on": []
+    },
+    {
+      "id": "T02",
+      "name": "Gather requirements from stakeholders",
+      "phase": "Initiation",
+      "role": "analyst",
+      "optimistic": 3.0,
+      "most_likely": 4.0,
+      "pessimistic": 6.0,
+      "depends_on": [
+        "T01"
+      ]
+    },
+    {
+      "id": "T03",
+      "name": "Analyze existing placement data and migration plan",
+      "phase": "Initiation",
+      "role": "analyst",
+      "optimistic": 3.0,
+      "most_likely": 5.0,
+      "pessimistic": 7.0,
+      "depends_on": [
+        "T02"
+      ]
+    },
+    {
+      "id": "T04",
+      "name": "Define system architecture and tech stack",
+      "phase": "Design",
+      "role": "developer",
+      "optimistic": 2.0,
+      "most_likely": 3.0,
+      "pessimistic": 5.0,
+      "depends_on": [
+        "T01"
+      ]
+    },
+    {
+      "id": "T05",
+      "name": "Create UI/UX wireframes for student portal",
+      "phase": "Design",
+      "role": "designer",
+      "optimistic": 3.0,
+      "most_likely": 4.0,
+      "pessimistic": 6.0,
+      "depends_on": [
+        "T02"
+      ]
+    },
+    {
+      "id": "T06",
+      "name": "Create UI/UX wireframes for admin dashboard",
+      "phase": "Design",
+      "role": "designer",
+      "optimistic": 3.0,
+      "most_likely": 4.0,
+      "pessimistic": 6.0,
+      "depends_on": [
+        "T02"
+      ]
+    },
+    {
+      "id": "T07",
+      "name": "Design database schema",
+      "phase": "Design",
+      "role": "developer",
+      "optimistic": 2.0,
+      "most_likely": 3.0,
+      "pessimistic": 5.0,
+      "depends_on": [
+        "T04",
+        "T03"
+      ]
+    },
+    {
+      "id": "T08",
+      "name": "Design API specification",
+      "phase": "Design",
+      "role": "developer",
+      "optimistic": 2.0,
+      "most_likely": 3.0,
+      "pessimistic": 5.0,
+      "depends_on": [
+        "T04",
+        "T03"
+      ]
+    },
+    {
+      "id": "T09",
+      "name": "Set up repository and CI/CD pipeline",
+      "phase": "Setup",
+      "role": "devops",
+      "optimistic": 2.0,
+      "most_likely": 3.0,
+      "pessimistic": 4.0,
+      "depends_on": [
+        "T01"
+      ]
+    },
+    {
+      "id": "T22",
+      "name": "Configure staging and production environments",
+      "phase": "Setup",
+      "role": "devops",
+      "optimistic": 2.0,
+      "most_likely": 3.0,
+      "pessimistic": 5.0,
+      "depends_on": [
+        "T09"
+      ]
+    },
+    {
+      "id": "T10",
+      "name": "Implement authentication and user management",
+      "phase": "Development",
+      "role": "developer",
+      "optimistic": 4.0,
+      "most_likely": 5.0,
+      "pessimistic": 8.0,
+      "depends_on": [
+        "T07",
+        "T08",
+        "T09"
+      ]
+    },
+    {
+      "id": "T11",
+      "name": "Implement student profile and resume upload",
+      "phase": "Development",
+      "role": "developer",
+      "optimistic": 4.0,
+      "most_likely": 5.0,
+      "pessimistic": 8.0,
+      "depends_on": [
+        "T07",
+        "T08",
+        "T09"
+      ]
+    },
+    {
+      "id": "T12",
+      "name": "Implement company portal for posting drives",
+      "phase": "Development",
+      "role": "developer",
+      "optimistic": 4.0,
+      "most_likely": 5.0,
+      "pessimistic": 8.0,
+      "depends_on": [
+        "T07",
+        "T08",
+        "T09"
+      ]
+    },
+    {
+      "id": "T13",
+      "name": "Implement application workflow and tracking",
+      "phase": "Development",
+      "role": "developer",
+      "optimistic": 4.0,
+      "most_likely": 5.0,
+      "pessimistic": 8.0,
+      "depends_on": [
+        "T07",
+        "T08",
+        "T09"
+      ]
+    },
+    {
+      "id": "T14",
+      "name": "Migrate past placement records from spreadsheets",
+      "phase": "Development",
+      "role": "analyst",
+      "optimistic": 3.0,
+      "most_likely": 4.0,
+      "pessimistic": 6.0,
+      "depends_on": [
+        "T03",
+        "T07"
+      ]
+    },
+    {
+      "id": "T15",
+      "name": "Frontend development for student portal",
+      "phase": "Development",
+      "role": "developer",
+      "optimistic": 5.0,
+      "most_likely": 7.0,
+      "pessimistic": 10.0,
+      "depends_on": [
+        "T05",
+        "T10",
+        "T11"
+      ]
+    },
+    {
+      "id": "T16",
+      "name": "Frontend development for admin dashboard",
+      "phase": "Development",
+      "role": "developer",
+      "optimistic": 5.0,
+      "most_likely": 7.0,
+      "pessimistic": 10.0,
+      "depends_on": [
+        "T06",
+        "T12",
+        "T13",
+        "T10"
+      ]
+    },
+    {
+      "id": "T17",
+      "name": "Integration testing",
+      "phase": "Testing",
+      "role": "tester",
+      "optimistic": 3.0,
+      "most_likely": 4.0,
+      "pessimistic": 6.0,
+      "depends_on": [
+        "T15",
+        "T16",
+        "T14"
+      ]
+    },
+    {
+      "id": "T18",
+      "name": "User acceptance testing and feedback iteration",
+      "phase": "Testing",
+      "role": "tester",
+      "optimistic": 3.0,
+      "most_likely": 4.0,
+      "pessimistic": 5.0,
+      "depends_on": [
+        "T17"
+      ]
+    },
+    {
+      "id": "T19",
+      "name": "Deploy to staging environment",
+      "phase": "Deployment",
+      "role": "devops",
+      "optimistic": 2.0,
+      "most_likely": 3.0,
+      "pessimistic": 4.0,
+      "depends_on": [
+        "T18",
+        "T22"
+      ]
+    },
+    {
+      "id": "T20",
+      "name": "Conduct performance and security testing",
+      "phase": "Testing",
+      "role": "tester",
+      "optimistic": 3.0,
+      "most_likely": 4.0,
+      "pessimistic": 6.0,
+      "depends_on": [
+        "T19"
+      ]
+    },
+    {
+      "id": "T21",
+      "name": "Final go-live deployment",
+      "phase": "Deployment",
+      "role": "devops",
+      "optimistic": 1.0,
+      "most_likely": 1.0,
+      "pessimistic": 2.0,
+      "depends_on": [
+        "T20"
+      ]
+    }
+  ],
+  "risks": [
+    {
+      "id": "R01",
+      "title": "Auth library mismatch",
+      "category": "technical",
+      "cause": "Inadequate authentication library selection",
+      "event": "Chosen library lacks support for SSO and email verification",
+      "effect": "Authentication module needs redesign, delaying development",
+      "probability": 0.25,
+      "impact_days": 5.0,
+      "affected_task_ids": [
+        "T10"
+      ],
+      "owner_role": "developer",
+      "response_strategy": "mitigate",
+      "response": "Evaluate and select a proven auth framework with SSO support before T10 starts, including a proof‑of‑concept"
+    },
+    {
+      "id": "R02",
+      "title": "Stakeholder availability bottleneck",
+      "category": "schedule",
+      "cause": "Key TPO stakeholder availability limited for requirement sign‑off",
+      "event": "Delayed feedback on requirements",
+      "effect": "Requirements gathering and analysis slip, pushing design start",
+      "probability": 0.4,
+      "impact_days": 4.0,
+      "affected_task_ids": [
+        "T02",
+        "T03",
+        "T04"
+      ],
+      "owner_role": "pm",
+      "response_strategy": "mitigate",
+      "response": "Schedule regular weekly sign‑off meetings and obtain provisional approval early in the project"
+    },
+    {
+      "id": "R03",
+      "title": "Developer illness impact",
+      "category": "resource",
+      "cause": "One developer falls ill for a week during core development",
+      "event": "Reduced development capacity",
+      "effect": "Frontend and API tasks delayed",
+      "probability": 0.2,
+      "impact_days": 5.0,
+      "affected_task_ids": [
+        "T13",
+        "T15",
+        "T16"
+      ],
+      "owner_role": "pm",
+      "response_strategy": "mitigate",
+      "response": "Cross‑train another developer as backup and adjust sprint backlog to redistribute work"
+    },
+    {
+      "id": "R04",
+      "title": "Scope creep on reporting",
+      "category": "scope",
+      "cause": "Stakeholders request additional analytics reports after design phase",
+      "event": "New reporting requirements added",
+      "effect": "Additional database fields and UI work extend schedule",
+      "probability": 0.3,
+      "impact_days": 6.0,
+      "affected_task_ids": [
+        "T08",
+        "T16",
+        "T20"
+      ],
+      "owner_role": "analyst",
+      "response_strategy": "avoid",
+      "response": "Obtain a formal scope freeze before design completion and document any future report requests for a separate phase"
+    },
+    {
+      "id": "R05",
+      "title": "Production server provisioning delay",
+      "category": "external",
+      "cause": "College IT team delays provisioning of production servers",
+      "event": "Production environment not ready by deployment date",
+      "effect": "Go‑live postponed",
+      "probability": 0.35,
+      "impact_days": 3.0,
+      "affected_task_ids": [
+        "T19",
+        "T21"
+      ],
+      "owner_role": "devops",
+      "response_strategy": "mitigate",
+      "response": "Raise the server request in week 1, track progress weekly, and maintain a fallback cloud environment"
+    },
+    {
+      "id": "R06",
+      "title": "Data migration script errors",
+      "category": "quality",
+      "cause": "Migration scripts not validated against varied spreadsheet formats",
+      "event": "Migration errors corrupt past placement records",
+      "effect": "Rework migration and data cleanup delay go‑live",
+      "probability": 0.25,
+      "impact_days": 4.0,
+      "affected_task_ids": [
+        "T14",
+        "T13",
+        "T20"
+      ],
+      "owner_role": "analyst",
+      "response_strategy": "mitigate",
+      "response": "Create a test matrix of spreadsheet variants and run migration pilots before the main migration"
+    },
+    {
+      "id": "R07",
+      "title": "CI/CD pipeline misconfiguration",
+      "category": "technical",
+      "cause": "CI/CD pipeline misconfiguration for environment variables",
+      "event": "Builds fail on staging deployment",
+      "effect": "Deployment to staging delayed, pushing testing schedule",
+      "probability": 0.2,
+      "impact_days": 3.0,
+      "affected_task_ids": [
+        "T09",
+        "T19"
+      ],
+      "owner_role": "devops",
+      "response_strategy": "mitigate",
+      "response": "Implement a pipeline validation checklist and run a dry‑run deployment to a sandbox environment before T19"
+    },
+    {
+      "id": "R08",
+      "title": "Underestimated UI/UX design effort",
+      "category": "schedule",
+      "cause": "Underestimation of UI/UX design effort",
+      "event": "Wireframes take longer than planned",
+      "effect": "Design phase overruns, delaying development start",
+      "probability": 0.3,
+      "impact_days": 4.0,
+      "affected_task_ids": [
+        "T05",
+        "T06",
+        "T04"
+      ],
+      "owner_role": "designer",
+      "response_strategy": "mitigate",
+      "response": "Allocate buffer days in the design schedule and conduct quick design reviews to catch issues early"
+    },
+    {
+      "id": "R09",
+      "title": "Limited tester availability",
+      "category": "resource",
+      "cause": "Limited tester availability due to academic commitments",
+      "event": "Testing slots are scarce",
+      "effect": "Integration and UAT phases compressed, risking quality issues",
+      "probability": 0.15,
+      "impact_days": 5.0,
+      "affected_task_ids": [
+        "T17",
+        "T18",
+        "T20"
+      ],
+      "owner_role": "tester",
+      "response_strategy": "mitigate",
+      "response": "Plan testing activities around academic calendar, secure part‑time testing resources, and prioritize critical test cases"
+    }
+  ]
+}
