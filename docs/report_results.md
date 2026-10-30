@@ -61,8 +61,9 @@ correlates most with the finish (0.72). Construction demo (lab renovation): P50 
 on time; the building permit T04 correlates most (0.64). Only the roles, rates and plan differ; no
 code changed between environments.
 
-**Figure 10. pytest and CI passing** (to capture: terminal `pytest -q` showing 119 passed, and the
-green CI run on GitHub).
+**Figure 10. pytest passing** (`docs/images/10_pytest_passing.png`).
+`pytest -q` reports 119 passed. The same suite runs in GitHub Actions on Ubuntu with Python 3.11 in
+offline mode, with no secrets (add a screenshot of the green run if the report needs one).
 
 ## Tables
 

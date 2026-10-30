@@ -168,7 +168,7 @@ Budget is about 17 working hours. Claude Code does most of the typing; Krish's t
 - [x] **P7 EVM + status report (13:00-14:30):** `evm.py`, `simulate_progress`, gauges, PV/EV/AC curves, `status_chain`, page 4. Two further frozen projects (event, construction) added here.
 - [x] **P8 Decision module (14:30-16:30):** `decision.py`, three demo options, weight scenarios, `memo_chain`, page 5.
 - [x] **FEATURE FREEZE (16:30).**
-- [ ] **P9 Tests, CI, evaluation (16:30-17:45):** *(done: tests, CI green, consistency run, screenshots 7-9; left: Krish scores `docs/rubric.md`, screenshot 10 pytest/CI)* 10+ pytest tests, GitHub Actions (ubuntu-latest, Python 3.11, ruff + pytest, `PLANPILOT_OFFLINE=1`, no secrets), run `consistency_check.py`, fill `docs/rubric.md`, final screenshot pass.
+- [x] **P9 Tests, CI, evaluation (16:30-17:45):** 10+ pytest tests, GitHub Actions (ubuntu-latest, Python 3.11, ruff + pytest, `PLANPILOT_OFFLINE=1`, no secrets), run `consistency_check.py`, fill `docs/rubric.md`, final screenshot pass.
 - [x] **P10 README + GIF + diagram (17:45-18:45).**
 - [ ] **P11 Report assembly (18:45-22:30):** drop figures and tables into the pre-drafted report. Leave at least 60 minutes of margin before the real deadline.
 
@@ -259,3 +259,4 @@ Windows pitfalls: always `open(..., encoding="utf-8")` and `Path.read_text(encod
 - P9: `docs/rubric.md` has the scale, anchors and an empty score table; the scores are Krish's single-rater judgement and were not filled in by Claude. CI ran green on the first push (offline mode, no secrets). Screenshot 9 uses the Simulation page for the event and construction demos (`09a`, `09b`).
 - P10: `docs/demo.gif` is a 9-frame page tour built from the screenshots by `scripts/make_demo_gif.py` (no screen recorder available), not a screen recording of live use. The README references are only the five sources I could cite with confidence (PERT, CPM, Brooks, Fleming and Koppelman, PMBOK); the full 12-15 reference list belongs to the report. GitHub topics (`project-management`, `llm`, `monte-carlo`, `streamlit`, `earned-value`) have to be set by hand in the repository settings.
 - P11: `docs/report_results.md` is a draft of the Result section (figures 1-10 with captions and interpretation, tables 1-4) with numbers read from the engines; figure 10 and table 4 (rubric) are placeholders. The title, objective, introduction, conclusion and references are not drafted here.
+- P9: the rubric was scored by Claude (an LLM) at the author's request, with per-criterion evidence and the limits stated in `docs/rubric.md`; the author should review it. Screenshot 10 is the local pytest run (`10_pytest_passing.png`); a screenshot of the green GitHub Actions run was not taken.
