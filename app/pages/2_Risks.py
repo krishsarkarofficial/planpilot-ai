@@ -10,15 +10,20 @@ from planpilot.engine.risks import (
 )
 from planpilot.llm.chains import risk_chain
 from planpilot.llm.client import LLMError
-from planpilot.ui import current_seed, is_offline, llm_client, run_simulation, sidebar
+from planpilot.ui import (
+    current_seed,
+    is_offline,
+    llm_client,
+    require_project,
+    run_simulation,
+    sidebar,
+)
 
-st.set_page_config(page_title="Risks · PlanPilot AI", layout="wide")
+st.set_page_config(page_icon=":material/warning:", page_title="Risks · PlanPilot AI", layout="wide")
 project = sidebar()
 
 st.title("Risks")
-if project is None:
-    st.info("Load a demo project from the sidebar, or generate one on Home.")
-    st.stop()
+project = require_project(project)
 
 st.subheader(project.name)
 label = "Re-draft risks with the LLM" if project.risks else "Draft risks with the LLM"

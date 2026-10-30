@@ -16,15 +16,15 @@ from planpilot.engine.evm import (
 from planpilot.llm.chains import status_chain
 from planpilot.llm.client import LLMError
 from planpilot.status import lakh, status_facts, template_status
-from planpilot.ui import current_seed, is_offline, llm_client, sidebar
+from planpilot.ui import current_seed, is_offline, llm_client, require_project, sidebar
 
-st.set_page_config(page_title="Execution · PlanPilot AI", layout="wide")
+st.set_page_config(
+    page_icon=":material/speed:", page_title="Execution · PlanPilot AI", layout="wide"
+)
 project = sidebar()
 
 st.title("Execution: earned value")
-if project is None:
-    st.info("Load a demo project from the sidebar, or generate one on Home.")
-    st.stop()
+project = require_project(project)
 
 st.subheader(project.name)
 defaults = PROGRESS_DEFAULTS[project.environment]

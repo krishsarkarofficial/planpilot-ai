@@ -22,18 +22,19 @@ from planpilot.ui import (
     current_seed,
     is_offline,
     llm_client,
+    require_project,
     run_comparison,
     run_simulation,
     sidebar,
 )
 
-st.set_page_config(page_title="Decide · PlanPilot AI", layout="wide")
+st.set_page_config(
+    page_icon=":material/balance:", page_title="Decide · PlanPilot AI", layout="wide"
+)
 project = sidebar()
 
 st.title("Decision: compare options")
-if project is None:
-    st.info("Load a demo project from the sidebar, or generate one on Home.")
-    st.stop()
+project = require_project(project)
 
 st.subheader(project.name)
 seed = current_seed()

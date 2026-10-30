@@ -3,7 +3,7 @@
 import streamlit as st
 from pydantic import TypeAdapter
 
-from planpilot.config import DEFAULT_SEED, PRESETS, PROVIDERS, offline_default
+from planpilot.config import DEFAULT_SEED, PRESETS, PROVIDERS, llm_available, offline_default
 from planpilot.engine.decision import Comparison, compare
 from planpilot.engine.montecarlo import SimResult, simulate
 from planpilot.llm.client import LLMClient
@@ -36,11 +36,55 @@ def llm_client() -> LLMClient:
 
 
 def is_offline() -> bool:
-    return bool(st.session_state.get("offline", offline_default()))
+    """Offline when the user switched it on or when no provider has an API key."""
+    return not llm_available() or bool(st.session_state.get("offline", offline_default()))
+
+
+REPO_URL = "https://github.com/krishsarkarofficial/planpilot-ai"
+
+_CSS = """
+<style>
+.block-container { padding-top: 2.5rem; max-width: 1200px; }
+[data-testid="stMetricValue"] { font-size: 1.6rem; }
+[data-testid="stMetricValue"] > div { white-space: normal; overflow: visible; text-overflow: clip; }
+footer { visibility: hidden; }
+</style>
+"""
+
+
+def inject_css() -> None:
+    st.markdown(_CSS, unsafe_allow_html=True)
+
+
+def load_demo(env: str) -> None:
+    st.session_state["project"] = load_sample(env)
+    st.session_state["demo_env"] = env
+    st.session_state.pop("generation", None)
+
+
+def demo_envs() -> list[str]:
+    """Demo environments in presentation order (software, event, construction)."""
+    order = list(PRESETS)
+    return sorted(available_samples(), key=lambda e: order.index(e) if e in order else len(order))
+
+
+def require_project(project: Project | None) -> Project:
+    """Return the project, or show a friendly empty state with one-click demos and stop."""
+    if project is not None:
+        return project
+    st.info("No project is loaded yet. Open a demo project to explore this page.")
+    envs = demo_envs()
+    for col, env in zip(st.columns(len(envs)), envs, strict=True):
+        label = PRESETS[env].label.partition(" (")[0]
+        if col.button(f"{label} demo", key=f"empty_{env}", width="stretch"):
+            load_demo(env)
+            st.rerun()
+    st.stop()
 
 
 def sidebar() -> Project | None:
     """Render the sidebar and return the current project (or None)."""
+    inject_css()
     with st.sidebar:
         k = _persistent_widget("offline", offline_default())
         st.toggle(
@@ -48,8 +92,11 @@ def sidebar() -> Project | None:
             key=k,
             on_change=_persist,
             args=(k, "offline"),
+            disabled=not llm_available(),
         )
-        if is_offline():
+        if not llm_available():
+            st.caption("No API key is configured, so this copy runs offline on the demo projects.")
+        elif is_offline():
             st.caption("LLM: off")
         else:
             provider = _client().provider
@@ -67,8 +114,12 @@ def sidebar() -> Project | None:
             args=(k, "demo_env"),
         )
         if st.button("Load demo project", width="stretch"):
-            st.session_state["project"] = load_sample(env)
-            st.session_state.pop("generation", None)
+            load_demo(env)
+        st.divider()
+        st.caption(
+            "Demo data is synthetic. PlanPilot AI supports decisions; it does not replace a "
+            f"project manager. [Source code]({REPO_URL})"
+        )
     return st.session_state.get("project")
 
 

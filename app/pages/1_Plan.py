@@ -2,15 +2,15 @@ import streamlit as st
 
 from planpilot import viz
 from planpilot.engine.schedule import check_plan, cpm, deadline_days, schedule_frame
-from planpilot.ui import sidebar
+from planpilot.ui import require_project, sidebar
 
-st.set_page_config(page_title="Plan · PlanPilot AI", layout="wide")
+st.set_page_config(
+    page_icon=":material/calendar_month:", page_title="Plan · PlanPilot AI", layout="wide"
+)
 project = sidebar()
 
 st.title("Plan")
-if project is None:
-    st.info("Load a demo project from the sidebar.")
-    st.stop()
+project = require_project(project)
 
 sched = cpm(project)
 df = schedule_frame(project, sched)

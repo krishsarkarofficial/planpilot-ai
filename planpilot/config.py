@@ -122,3 +122,8 @@ CACHE_DIR = ROOT / "data" / "cache"
 
 def offline_default() -> bool:
     return os.getenv("PLANPILOT_OFFLINE", "") == "1"
+
+
+def llm_available() -> bool:
+    """True when at least one provider has an API key. A deployment with no key runs offline."""
+    return any(os.getenv(cfg["key_env"]) for cfg in PROVIDERS.values())

@@ -3,15 +3,15 @@ import streamlit as st
 from planpilot import viz
 from planpilot.config import N_ITERATIONS
 from planpilot.engine.schedule import cpm, finish_date
-from planpilot.ui import current_seed, run_simulation, sidebar
+from planpilot.ui import current_seed, require_project, run_simulation, sidebar
 
-st.set_page_config(page_title="Simulation · PlanPilot AI", layout="wide")
+st.set_page_config(
+    page_icon=":material/casino:", page_title="Simulation · PlanPilot AI", layout="wide"
+)
 project = sidebar()
 
 st.title("Monte Carlo simulation")
-if project is None:
-    st.info("Load a demo project from the sidebar.")
-    st.stop()
+project = require_project(project)
 
 seed = current_seed()
 res = run_simulation(project, seed)

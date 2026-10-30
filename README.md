@@ -76,12 +76,30 @@ Run the tests with `pytest -q` and lint with `ruff check .`. Python 3.11 is requ
 2. Pick a demo project (software, event or construction) and click **Load demo project**.
 3. Open **Plan**, **Risks**, **Simulation**, **Execution** and **Decide**.
 
-Offline mode never builds an LLM client or touches the network. The demos use frozen projects in
+Offline mode never builds an LLM client or touches the network, and it is forced on when no API key is configured. The demos use frozen projects in
 `data/sample/`, not cached responses, so they do not depend on prompt wording. The status report
 and decision memo use code-written templates offline.
 
 To regenerate the demo data (deadline calibration to about the baseline P65, progress CSVs):
 `python scripts/make_demo_data.py`.
+
+## Deploy as a public demo (Streamlit Community Cloud)
+
+The app deploys as it is. A copy with no API key runs **offline** on the three frozen demo
+projects: the sidebar switch is locked on and every LLM button is disabled, so strangers cannot use
+up your Groq or Gemini quota.
+
+1. Push the repository to GitHub (it is already there).
+2. On [share.streamlit.io](https://share.streamlit.io) choose **Create app**, pick this repository
+   and the `main` branch, and set the main file path to `app/Home.py`.
+3. Under **Advanced settings** choose **Python 3.11**. Leave secrets empty for a public demo.
+4. Deploy. Dependencies come from `requirements.txt`, which installs the `planpilot` package from
+   the repository (`-e .`), so the prompts and `data/sample/` files are found.
+
+To enable live generation for everyone who opens the app, add `GROQ_API_KEY` (and optionally
+`GEMINI_API_KEY`, `GEMINI_MODEL`) as top-level secrets. Do that only if you accept that visitors
+can spend your free-tier quota; the app has no login or rate limit of its own. For a private copy,
+restrict who can view it in the app's sharing settings.
 
 ## How it works
 
