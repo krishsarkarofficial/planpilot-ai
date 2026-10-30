@@ -169,7 +169,7 @@ Budget is about 17 working hours. Claude Code does most of the typing; Krish's t
 - [x] **P8 Decision module (14:30-16:30):** `decision.py`, three demo options, weight scenarios, `memo_chain`, page 5.
 - [x] **FEATURE FREEZE (16:30).**
 - [ ] **P9 Tests, CI, evaluation (16:30-17:45):** *(done: tests, CI green, consistency run, screenshots 7-9; left: Krish scores `docs/rubric.md`, screenshot 10 pytest/CI)* 10+ pytest tests, GitHub Actions (ubuntu-latest, Python 3.11, ruff + pytest, `PLANPILOT_OFFLINE=1`, no secrets), run `consistency_check.py`, fill `docs/rubric.md`, final screenshot pass.
-- [ ] **P10 README + GIF + diagram (17:45-18:45).**
+- [x] **P10 README + GIF + diagram (17:45-18:45).**
 - [ ] **P11 Report assembly (18:45-22:30):** drop figures and tables into the pre-drafted report. Leave at least 60 minutes of margin before the real deadline.
 
 **Run in parallel (in the claude.ai chat, while Claude Code builds):** draft Title, Objective, Introduction and References for the report. These do not depend on the app.
@@ -257,3 +257,4 @@ Windows pitfalls: always `open(..., encoding="utf-8")` and `Path.read_text(encod
 - P8: screenshot 8 is `docs/images/08_decision_comparison_memo.jpg`. Screenshot 7 (EVM dashboard) is still missing from `docs/images/`.
 - P9: `consistency_check.py` waits 65 s and retries (3 times) on a Groq per-minute 429, because a first run lost 4 of 9 runs to the free-tier token limit; `--resume` keeps the successful rows. Final run: 9 of 9 succeeded on Groq at temperature 0.7. Task counts (16-22) and risk counts (9-10) are stable, but the critical-path length varies a lot between runs of the same brief (construction 30-53 days, event 30-50, software 37-46), which the report should say. Generated projects are in `docs/generated/`.
 - P9: `docs/rubric.md` has the scale, anchors and an empty score table; the scores are Krish's single-rater judgement and were not filled in by Claude. CI ran green on the first push (offline mode, no secrets). Screenshot 9 uses the Simulation page for the event and construction demos (`09a`, `09b`).
+- P10: `docs/demo.gif` is a 9-frame page tour built from the screenshots by `scripts/make_demo_gif.py` (no screen recorder available), not a screen recording of live use. The README references are only the five sources I could cite with confidence (PERT, CPM, Brooks, Fleming and Koppelman, PMBOK); the full 12-15 reference list belongs to the report. GitHub topics (`project-management`, `llm`, `monte-carlo`, `streamlit`, `earned-value`) have to be set by hand in the repository settings.
